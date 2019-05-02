@@ -1,0 +1,17 @@
+= content_for :about do
+  .col-md-5
+    %h2{:style => "text-align: center"}
+      = t("form.welcome")
+    %br/
+    = simple_form_for(resource, as: resource_name, url: session_path(resource_name), :html => { :class => 'form-horizontal', :role => 'form', novalidate: true }) do |f|
+      .form-group
+        = f.input :email, input_html: { class: 'form-control' }, label: false, required: false, autofocus: true, placeholder: t("form.email")
+      .form-group
+        = f.input :password, input_html: { class: 'form-control' }, label: false, required: false, placeholder: t("form.password")
+      .form-group
+        = f.button :submit, :class => 'btn btn-primary btn-lg btn-block', value: t("form.log_in")
+      = render "devise/shared/links"
+    %br/
+  .col-md-7
+    .row
+      %img.img-responsive.pull-right{alt: "Generic placeholder image", src: "https://img-fotki.yandex.ru/get/59613/104136015.21/0_b822e_98593b7d_XL.png"}/

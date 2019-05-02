@@ -1,0 +1,65 @@
+%center
+  %h1
+    = "Хаос упорядочен!"
+  .lead
+    = "Гипокауст объединяет процессы в строительстве и держит участников проекта на «одной странице». Не важно, какая у тебя роль в проекте, все работают, чтобы достичь единой цели — выполнить проект вместе."
+  %br/
+.container-fluid
+  .row
+    .col-md-6
+      %img.img-responsive{alt: "Generic placeholder image", src: "https://img-fotki.yandex.ru/get/4508/104136015.20/0_b0fb2_63e7500b_orig.png"}/
+    .col-md-6
+      - if (current_user.try(:status) == 'admin') || (current_user.try(:status) == 'earlybird')
+        = link_to '+ Добавить объект', new_construction_site_path, :class => 'btn btn-default'
+      -else
+        %p= "На данный момент мы проводим публичное тестирование нашего сарвиса. С помощью формы ниже подайте заявку на участие. В ближайшее время мы свяжемся с вами. Публичное тестирование бесплатно."
+        = render :partial => "companies/form"
+%hr/
+.pull-left
+  %h2
+    = "У нас есть уникальные полезные функции для разных участников проекта в вашей организации."
+  %h3
+    = "Если вы менеджер проектов..."
+  .lead
+    = "Гипокауст поможет вам быть в курсе всех нюансов проекта. Вы всегда будете видеть общую картину всего: что в процессе выполнения, что будет выполняться, кто ответственный и что уже сделано и готово на выдачу заказчику."
+.container-fluid
+  .row
+    %img.img-responsive{alt: "Generic placeholder image", src: "https://img-fotki.yandex.ru/get/15511/104136015.20/0_b0fb3_6752699f_X4L.png"}/
+%hr/
+.pull-left
+  %h3
+    = "Если вы главный инженер проекта..."
+  .lead
+    = "Гипокауст поможет определить последовательность и этапность разработки проекта, разбить разработку на процессы и задачи. Прикрепить ответственных проектироващиков, проверить работу и обмениваться файлами."
+.container-fluid
+  .row
+    %img.img-responsive{alt: "Generic placeholder image", src: "https://img-fotki.yandex.ru/get/9501/104136015.20/0_b0fb4_11cf6b10_X4L.png"}/
+.pull-left
+  .lead
+    = "Вы сможете оценить загруженность проектировщиков с помощью наглядных метрик."
+.container-fluid
+  .row
+    %img.img-responsive{alt: "Generic placeholder image", src: "https://img-fotki.yandex.ru/get/5406/104136015.20/0_b0fb5_5e57fccd_X4L.png"}/
+.pull-left
+  .lead
+    = "Наглядное планирование и график сгорания задач поможет вам достаточно точно оценить сроки сдачи проекта по разделам."
+.container-fluid
+  .row
+    %img.img-responsive{alt: "Generic placeholder image", src: "https://img-fotki.yandex.ru/get/3503/104136015.20/0_b0fb6_33e2f4c3_XXXL.png"}/
+%hr/
+.pull-left
+  %h3
+    = "Если вы проектировщик или исполнитель проекта..."
+  .lead
+    = "Гипокауст дает вам возможность отслеживать свои задачи, их сроки и основные детали. Вы сможете также обсудить нюансы задачи и обменяться файлами. Все решения будут задокументированы."
+.container-fluid
+  %center.row
+    %img.img-responsive{alt: "Generic placeholder image", src: "https://img-fotki.yandex.ru/get/9829/104136015.20/0_b0fb7_4223db40_XXXL.png"}/
+%hr/
+.container-fluid
+  .row
+    .col-md-3
+    .col-md-6
+      %p= "Если вас еще не пригласили ни в один проект, то самое время принять участие в бета тестировании и начать работать над своими проектами."
+      = render :partial => "companies/form"
+    .col-md-3

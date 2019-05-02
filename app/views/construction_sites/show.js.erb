@@ -1,0 +1,22 @@
+<% if params[:scrolling] == "filescroll" %>
+  $('#activities').append('<%= j render "activities/activities_by_day" %>');
+  <% if @activities.next_page %>
+    $('.pagination').replaceWith('<%= j will_paginate(@activities) %>');
+  <% else %>
+    $('.pagination').remove();
+  <% end %>
+<% else %>
+  $("#construction_site").html("<%= j render(:partial => 'construction_sites/construction_site', :object => @construction_site) %>");
+  <% if @construction_site.tasks.where.not(state: "done").empty? %>
+    $("#sidebar-right").html("<%= j render(:partial => "site_data", :object => @construction_site) %>");
+  <% else %>
+    $("#sidebar-right").html("<%= j render "task_list" %>");
+  <% end %>
+<% end %>
+
+jQuery(function() {
+  return $('#cs_attachment_new').fileupload({
+    dataType: "script",
+    dropZone: $('#dropzone_cs')
+  });
+});

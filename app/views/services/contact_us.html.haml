@@ -1,0 +1,43 @@
+- model_class = Service
+.page-header{:style => "text-align: left; vertical-align: top;"}
+  %h1
+    = 'Всегда к вашим услугам'
+    %ul.nav.nav-pills.pull-right
+      %li{:role => "presentation"}
+        %a{:href => services_path } Услуги
+      %li{:role => "presentation"}
+        %a{:href => out_of_the_box_services_path } Решения из коробки
+  %p.lead
+    Если у вас есть общие вопросы, то вы всегда можете их задать, отправив нам имейл по адресу 
+    = mail_to "info@hypocaust.org"
+    и мы ответим в течение дня. Еще вы всегда можете позвонить нам по телефону: +7 (499) 393-3744.
+  %p.lead
+    Также присоединяйтесь к нам на 
+    = link_to 'Фэйсбуке', 'https://www.facebook.com/hypocaust'
+    и 
+    = link_to 'Вконтакте', 'http://vk.com/hypocaust'
+
+.row-fluid
+  .col-md-8
+    .lead Карта
+    %script{:charset => "utf-8", :src => "//api-maps.yandex.ru/services/constructor/1.0/js/?sid=KSckrj-s7dC1i6pN-C_PkXAa0W2YB53h&width=600&height=450", :type => "text/javascript"}
+    %br/
+  .col-md-4
+    .lead Адрес в России
+    %address
+      %strong Компания «Гипокауст»
+      %br/
+      125009, г. Москва
+      %br/
+      Глинищевский пер., д. 5/7
+      %br/
+      %abbr{:title => "Phone"}
+      +7 (499) 393-3744
+      %br/
+      %a{:href => "mailto:#"} info@hypocaust.org
+
+= content_for :title do
+  = "Контакты и адрес компании Гипокауст"
+
+= content_for :meta_description do
+  = "Если у вас есть общие вопросы, то вы всегда можете их задать, отправив нам имейл по адресу info@hypocaust.org и мы ответим в течение дня. Еще вы всегда можете позвонить нам по телефону: +7 (499) 393-3744. Также присоединяйтесь к нам на Фэйсбуке и Вконтакте"

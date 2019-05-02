@@ -1,0 +1,43 @@
+- model_class = Service
+%br/
+.container-fluid
+
+  %ol.breadcrumb
+    %li
+      %a{:href => services_path} Услуги
+    %li
+      = link_to 'Вернуться назад', :back
+    %li.active
+      = @service.name
+
+  .container
+    .row
+      .col-md-9
+        %h1
+          = @service.name
+          %small
+            - if current_user.try(:id) == @service.user_id || current_user.try(:status) == 'admin'
+              = link_to edit_service_path(@service) do
+                %span.glyphicon.glyphicon-pencil
+              = link_to service_path(@service), :method => :delete, :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Точно удалить услугу?')) do
+                %span.glyphicon.glyphicon-trash
+        %p.lead
+          = @service.short_description
+        .text-left
+          = markdown.render(@service.body).html_safe
+      .col-md-3
+        %h4
+          - if @service.price?
+            %span.label.label-success
+              = @service.price
+
+= content_for :post_top_teaser do
+  .fill-teaser{style: "background-image:url(#{@service.picture});"}
+    .container
+      .carousel-caption
+
+= content_for :title do
+  = @service.name + ": " + @service.short_description
+
+= content_for :meta_description do
+  = @service.short_description

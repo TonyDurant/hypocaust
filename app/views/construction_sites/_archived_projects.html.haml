@@ -1,0 +1,21 @@
+- model_class = ConstructionSite
+.col-sm-11.col-md-11.main
+  .container-fluid
+    .row
+      - unless @construction_sites.empty?
+        #construction_sites
+          = render partial: "construction_sites/construction_site_thumbnail", collection: @construction_sites, as: :construction_site
+    .row
+      %center
+        .pagination-centered
+          = will_paginate @construction_sites
+    .row
+      - if @construction_sites.empty?
+        .col-sm-12
+          .alert.alert-info{:role => "alert"} Упс... У вас пока нет проектов в архиве, ничего страшного. Выполните проект и отправьте его в архив... :)
+
+      = content_for :title do
+        = "Объекты в архиве"
+
+      = content_for :meta_description do
+        = "Объекты, которые находятся в архиве"

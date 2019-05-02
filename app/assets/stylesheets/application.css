@@ -1,0 +1,250 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ *= require bootstrap-datepicker3
+ */
+
+
+div.circle.two-fifty {
+	border: 0px solid black;
+	width: 190px;
+	height: 190px;
+	border-radius: 50%;
+	overflow: hidden
+}
+
+div.circle.twenty-five {
+	display: inline-block;
+	border: 0px solid black;
+	width: 25px;
+	height: 25px;
+	border-radius: 50%;
+	overflow: hidden
+}
+
+div.circle.thirty-five {
+	display: inline-block;
+	border: 0px solid black;
+	width: 35px;
+	height: 35px;
+	border-radius: 50%;
+	overflow: hidden
+}
+
+.bs-callout {
+    padding: 15px;
+    margin: 4px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
+
+.bs-callout h4 {
+    margin-top: 0;
+    margin-bottom: 5px
+}
+
+.bs-callout p:last-child {
+    margin-bottom: 0
+}
+
+.bs-callout code {
+    border-radius: 3px
+}
+
+.bs-callout+.bs-callout {
+    margin-top: -5px
+}
+
+.bs-callout-danger {
+    border-left-color: #ce4844
+}
+
+.bs-callout-danger h4 {
+    color: #ce4844
+}
+
+.bs-callout-warning {
+    border-left-color: #aa6708
+}
+
+.bs-callout-warning h4 {
+    color: #aa6708
+}
+
+.bs-callout-info {
+    border-left-color: lightblue
+}
+
+.bs-callout-info h4 {
+    color: #1b809e
+}
+
+.bs-callout-green {
+    border-left-color: lightgreen
+}
+
+.bs-callout-red {
+    border-left-color: red
+}
+
+.bs-callout-yellow {
+    border-left-color: lightyellow
+}
+
+.progress {
+	margin-bottom: 5px;
+}
+   img {
+          display: block;
+          height: auto;
+          max-width: 100%;
+   }
+
+.jumbotron {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-bottom: 0px;
+    color: inherit;
+    background-color: #eee
+}
+
+.jumbotron .h1, .jumbotron h1 {
+    color: inherit
+}
+
+.jumbotron p {
+    margin-bottom: 15px;
+    font-size: 21px;
+    font-weight: 200
+}
+
+.jumbotron>hr {
+    border-top-color: #d5d5d5
+}
+
+.container .jumbotron, .container-fluid .jumbotron {
+    border-radius: 6px
+}
+
+.jumbotron .container {
+    max-width: 100%
+}
+
+.img-circle {
+    display: inline
+}
+
+.label {
+    margin: 2px
+}
+
+.lead {
+    margin-bottom: 5px;
+}
+
+.centered-pills { text-align:center; }
+.centered-pills ul.nav-pills { display:inline-block; }
+.centered-pills li { display:inline; }
+.centered-pills a { float:left; }
+* html .centered-pills ul.nav-pills { display:inline; } /* IE6 */
+*+html .centered-pills ul.nav-pills { display:inline; } /* IE7 */
+
+.popover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1010;
+  display: none;
+  max-width: 100%;
+  padding: 1px;
+  text-align: left;
+  white-space: normal;
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+     -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -webkit-background-clip: padding-box;
+     -moz-background-clip: padding;
+          background-clip: padding-box;
+}
+
+.popovercontent {
+overflow-y: scroll;
+}
+
+/* sticky footer */
+.footer-sticky {
+	position: fixed;
+  bottom: 0;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+}
+
+div.media.account {
+	margin-bottom: 10px;
+}
+
+.media:first-child {
+	margin-top: 10px;
+}
+
+.container-fluid.construction_site {
+	padding-bottom: 65px;
+}
+
+.navbar-collapse {
+	padding-left: 0px;
+}
+
+#dropzone {
+
+}
+#dropzone.in {
+
+}
+#dropzone.hover {
+		border: 3px dashed #d8d8d8;
+		border-radius: 4px;
+}
+#dropzone.fade {
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    opacity: 1;
+}
+
+#dropzone_cs {
+}
+#dropzone_cs.in {
+}
+#dropzone_cs.hover {
+		border: 3px dashed #d8d8d8;
+		border-radius: 4px;
+}
+#dropzone_cs.fade {
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    opacity: 1;
+}

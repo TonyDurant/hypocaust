@@ -1,0 +1,20 @@
+= content_for :landing_page do
+  #myCarousel.carousel.slide{"data-ride" => "carousel"}
+    .carousel-inner
+      .item.active
+        .fill{style: "background-color: #5bc0de"}
+        .carousel-caption
+          %p{:style => "font-size: 170px;"}
+            %i.fa.fa-cloud
+          = bootstrap_flash
+          %h1
+            = t("landing_page.title")
+          %p
+            = t("landing_page.desc")
+          = render :partial => "companies/form"
+
+= content_for :title do
+  = t("footer.slogan")
+
+= content_for :meta_description do
+  = t("footer.slogan")

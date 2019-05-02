@@ -1,0 +1,86 @@
+%hr/
+.lead
+  %i.fa.fa-info{:style => "color:lightblue"}
+  = t("form.project_info")
+  %span.btn-group.pull-right
+    %button#dropdownUsers.btn.btn-link.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "link"}
+      %i.fa.fa-cog.lead{:style => "color:grey"}
+    %ul.dropdown-menu.dropdown-menu-right{"aria-labelledby" => "dLabel"}
+      - if current_user.participations.where(construction_site_id: @construction_site.id).empty?
+      -else
+        - if current_user.participations.where(construction_site_id: @construction_site.id).first.role == "manager"
+          %li
+            = link_to edit_construction_site_path(@construction_site), :remote => true, 'data-toggle'=> "modal", 'data-target' => '#constructionSiteModal' do
+              %i.fa.fa-pencil{:style => "color:lightblue"}
+              = t("buttons.edit")
+        - if current_user.participations.where(construction_site_id: @construction_site.id).first.role == "manager"
+          %li
+            = link_to construction_site_path(@construction_site), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Вы уверены, что хотите удалить объект?')) } do
+              %i.fa.fa-trash-o{:style => "color:lightblue"}
+              = t("buttons.delete")
+        - if current_user.participations.where(construction_site_id: @construction_site.id).first.role == "manager"
+          %li
+            = link_to archive_construction_site_path(@construction_site), :remote => true do
+              %i.fa.fa-archive{:style => "color:lightblue"}
+              = t("buttons.archive")
+/= render_activities @construction_site.activities.first
+%h4
+  = @construction_site.name
+%p
+  = markdown.render(@construction_site.description).html_safe
+%p
+  %span.text-muted{:style => "color:lightgrey"}
+    %i.fa.fa-clock-o{:style => "color:lightgrey"}
+    = @construction_site.created_at.strftime("%d-%B-%Y, %H:%M")
+    = "|"
+    %i.fa.fa-book
+    = t("cs.form.public")
+    = "|"
+    = @construction_site.site_type
+    = "|"
+    = @construction_site.area
+
+.media
+  %a.pull-left{href: "#"}
+    = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 35px;"})
+  .media-body
+    %h5.media-heading
+      = @construction_site.customer_name
+      %span.text-muted{:style => "color:lightgrey"}
+        = t("cs.form.customer_name_label")
+    .text-muted
+    = mail_to @construction_site.email, @construction_site.email
+    = @construction_site.phone
+
+%br
+%p
+  = t("cs.form.address_label") + ":"
+  = @construction_site.address
+
+%hr/
+.lead
+  = t("cs.form.collaboration")
+%p
+  = render partial: "construction_sites/form_add_participant", object: @construction_site
+.media
+  - @construction_site.participations.uniq!.each do |participation|
+    = div_for(@construction_site, class: "#{"media-body " + "participant_" + participation.user.id.to_s}") do
+      .media
+        %a.pull-left{href: "#"}
+          - if participation.user.avatar && participation.user.avatar != ""
+            = image_tag(participation.user.avatar, {:class => 'img-circle', :style => "width: 35px;"})
+          - else
+            = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 35px;"})
+        .media-body
+          %h5.media-heading
+            - if participation.user.name && participation.user.last_name
+              = participation.user.try(:name) + " " + participation.user.try(:last_name)
+            - else
+              = participation.user.email
+            %span.text-muted{:style => "color:lightgrey"}
+              %i.fa.fa-clock-o{:style => "color:lightgrey"}
+              = participation.user.created_at.strftime("%d-%B-%Y, %H:%M")
+          .text-muted
+            = participation.role
+            - if @construction_site.participations.where(user_id: current_user, construction_site_id: @construction_site).first.try(:role) == "manager"
+              = link_to t("cs.kick_user"), controller: "construction_sites", action: "kick_user", user_id: participation.user.id, remote: true

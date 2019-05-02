@@ -1,0 +1,5 @@
+<% if @lead_time_data.empty? %>
+  $("#sidebar-right").html("<%= j render(:partial => "construction_sites/empty") %>");
+<% else %>
+  $("#sidebar-right").html("<%= j render(:partial => "lead_time_chart") %>");
+<% end %>

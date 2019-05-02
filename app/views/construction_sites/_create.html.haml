@@ -1,0 +1,50 @@
+#activity
+- if activity.trackable
+  .media
+    .media-body
+      .media
+        %a.pull-left{href: "#"}
+          - if activity.owner.avatar && activity.owner.avatar != ""
+            = image_tag(activity.owner.avatar, {:class => 'img-circle', :style => "width: 35px;"})
+          - else
+            = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 35px;"})
+        .media-body
+          %h5.media-heading
+            - if activity.owner.name && activity.owner.last_name
+              = activity.owner.try(:name) + " " + activity.owner.try(:last_name)
+            - else
+              = activity.owner.email
+            %span.text-muted{:style => "color:lightgrey"}
+              %i.fa.fa-clock-o{:style => "color:lightgrey"}
+              = activity.created_at.strftime("%d-%B-%Y, %H:%M")
+          .text-muted
+            = t("activity.added")
+            = t("activity.project")
+          - @construction_site = activity.trackable
+          = render partial: "construction_sites/construction_site_thumbnail", object: @construction_site, as: :construction_site
+-else
+  .media
+    %a.pull-left{href: "#"}
+      %span.glyphicon.glyphicon-home
+    .media-body
+      %h5.media-heading.text-muted
+        %i.fa.fa-trash-o{:style => "color:lightgrey"}
+- if (activity.trackable.comments.count == 0) && action_name == "show"
+  .media
+    .media-body
+      .media
+        %a.pull-left{href: "#"}
+          = image_tag("https://img-fotki.yandex.ru/get/109111/104136015.21/0_b7c35_f9e4fc0c_S.png", {:class => 'img-circle', :style => "width: 35px;"})
+        .media-body
+          %h5.media-heading
+            HypocaustBot
+            %span.text-muted{:style => "color:lightgrey"}
+              %i.fa.fa-clock-o{:style => "color:lightgrey"}
+              = activity.created_at.strftime("%d-%B-%Y, %H:%M")
+          .text-muted
+            = t("activity.advice")
+          #callout-alerts-no-default{:class => "bs-callout bs-callout-blue"}
+            %p
+              = t("activity.congratulations")
+            %p
+              = render partial: "construction_sites/form_add_participant", object: @construction_site

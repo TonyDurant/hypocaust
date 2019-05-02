@@ -1,0 +1,68 @@
+.row-fluid
+  = simple_form_for @construction_site, :html => { :class => 'form-horizontal', :role => 'form', novalidate: true } do |f|
+    = f.error_notification
+    .lead
+      = t("cs.form.main_data")
+    %hr/
+    .form-group
+      = f.input :name, input_html: { class: 'form-control' }, label: t("cs.form.name_label"), placeholder: t("cs.form.name_desc"), autofocus: true
+    .form-group
+      = f.input :address, input_html: { class: 'form-control' }, label: t("cs.form.address_label"), placeholder: t("cs.form.address_desc")
+    %br/
+    .lead
+      = t("cs.form.customer_info")
+    %hr/
+    .form-group
+      = f.input :customer_name, input_html: { class: 'form-control' }, label: t("cs.form.customer_name_label"), placeholder: t("cs.form.customer_name_desc")
+    .form-group
+      = f.input :email, input_html: { class: 'form-control' }, label: t("cs.form.email_label"), placeholder: t("cs.form.email_desc")
+    .form-group
+      = f.input :phone, input_html: { class: 'form-control' }, label: t("cs.form.phone_label"), placeholder: t("cs.form.phone_desc")
+    %br/
+    .lead
+      = t("cs.form.add_data")
+    %hr/
+    .form-group
+      = f.input :site_type, input_html: { class: 'form-control' }, collection: [[t("cs.form.commercial"), 'commercial'], [t("cs.form.industrial"), 'industrial'], [t("cs.form.residential"), 'residential']], label: t("cs.form.site_type_label"), include_blank: false
+    .form-group
+      = f.input :area, input_html: { class: 'form-control' }, label: t("cs.form.area_label"), placeholder: t("cs.form.area_desc")
+    .form-group
+      = f.input :avatar, input_html: { class: 'form-control' }, label: t("cs.form.avatar_label"), placeholder: t("cs.form.avatar_desc")
+    .form-group
+      = f.trix_editor :description, input_html: { class: 'form-control' }, label: t("cs.form.desc_label"), placeholder: t("cs.form.desc_desc")
+    %br/
+    .lead
+      = t("cs.form.collaboration")
+    %hr/
+    .form-group
+      %label.float.optional.control-label
+        = t("cs.form.add_user")
+      = text_field_tag :emails, params[:emails], class: "form-control"
+      %p.text-muted
+        = t("cs.form.add_user_desc")
+    %ul.list-inline
+      %li
+        .form-group
+          = f.check_box :archive, as: :boolean
+      %li
+        = t("cs.form.archive")
+    %br/
+    .lead
+      = t("cs.form.permissions")
+    %hr/
+    %p
+    /%ul.list-inline
+    /  %li
+    /    .form-group
+    /      = f.check_box :vault, as: :boolean
+    /  %li
+    /    = t("cs.form.make_vault")
+    %ul.list-inline
+      %li
+        .form-group
+          = f.check_box :public, as: :boolean
+      %li
+        = t("cs.form.make_public")
+    .form-group
+    = f.button :submit, :class => 'btn btn-default', value: t("cs.form.save_data")
+    /= link_to t('cs.form.cancel', :default => t("helpers.links.cancel")), construction_sites_path, :class => 'btn btn-default'

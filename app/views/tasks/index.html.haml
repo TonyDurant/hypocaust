@@ -1,0 +1,17 @@
+.container-fluid
+  .row
+    .col-sm-3.col-md-3.sidebar
+      %ul.nav.nav-sidebar
+        %li.active
+          %a{:href => "#"}
+            Overview
+            %span.sr-only (current)
+        - @tasks.each do |task|
+          %li
+            = link_to task.name, task_path(task), remote: true
+        %li
+          %a{:href => "#"} Analytics
+        %li
+          %a{:href => "#"} Export
+    .col-sm-9.col-sm-offset-3.col-md-9.col-md-offset-3.main
+      #task

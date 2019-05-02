@@ -1,0 +1,18 @@
+- unless @comment.comments.empty?
+  - @comment.comments.each do |reply|
+    .media
+      %a.pull-left{href: "#"}
+        - if reply.user.avatar && reply.user.avatar != ""
+          %div.span.circle.thirty-five
+            %img{:onload => "with (this) {if (offsetHeight < offsetWidth) style.height = '100%'; else style.width = '35px'; style.visibility = 'visible'}", :src => reply.user.avatar, :alt => reply.user.email, :style => "visibility: hidden"}/
+        - else
+          = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 35px;"})
+      .media-body
+        %h5.media-heading
+          - if reply.user.name && reply.user.last_name
+            = reply.user.try(:name) + " " + reply.user.try(:last_name)
+          - else
+            = reply.user.email
+        = reply.body.prep.urls_to_images.newlines_to_br.urls_to_links
+        %span.text-muted
+          = " | " + reply.created_at.strftime("%d-%B-%Y, %H:%M")

@@ -1,0 +1,10 @@
+#att_cs.collapse.out{"data-target" => "#" + @construction_site.id.to_s, "id" => @construction_site.id.to_s}
+  %p
+  = simple_form_for Attachment.new, :html => { :class => 'form-horizontal', :role => 'form', :multipart => true, :id => "cs_attachment_new"} do |f|
+    .form-group
+      = f.input :name, placeholder: t("attach.name"), input_html: { class: 'form-control' }, label: t("attach.name_of_file"), as: :hidden
+      = file_field_tag :attachment, :multiple => true, class: "form-group", name: "attachment[attachment]"
+      = f.input :user_id, :input_html => { :value => current_user.id }, as: :hidden, required: true
+      = f.input :attachable_id, :input_html => { :value => @construction_site.id }, as: :hidden, required: true
+      = f.input :attachable_type, :input_html => { :value => "ConstructionSite" }, as: :hidden, required: true
+      = f.button :submit, :class => 'btn btn-default', value: t("attach.add_attachment")

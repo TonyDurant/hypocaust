@@ -1,0 +1,19 @@
+#construction_site_sidebar
+  %ul.nav.nav-sidebar
+    .legend
+      = t("cs.construction_sites") + " (#{@construction_sites.count})"
+      .pull-right
+        = link_to new_construction_site_path, :remote => true, 'data-toggle'=> "modal", 'data-target' => '#constructionSiteModal' do
+          %i.fa.fa-plus-square-o.lead{:style => "color:lightgrey"}
+    = render partial: "construction_sites/construction_site_sidebar", collection: @construction_sites, as: :construction_site
+    %br/
+    .legend
+      - if current_user.construction_sites.where(archive: true).count > 0
+        = link_to archived_projects_construction_sites_path, remote: true do
+          = t("cs.archive") + " (#{current_user.construction_sites.where(archive: true).count})"
+    %br/
+    %br/
+    :javascript
+      $( ".construction_site_sidebar_link" ).click(function() {
+        $('#construction_site').html('<center><i class="fa fa-spinner fa-spin" style="font-size:30px"></i></center>');
+      });

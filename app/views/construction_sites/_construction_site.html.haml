@@ -1,0 +1,91 @@
+.col-sm-6.col-md-6.main
+  .container-fluid
+    .col-md-12.col-sm-12
+      .btn-group
+        %button#dropdownMenu1.btn.btn-link.dropdown-toggle{"aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+          %span.text-muted #
+          = truncate(@construction_site.name, length: 30)
+          %span.caret
+        %ul.dropdown-menu{"aria-labelledby" => "dropdownMenu1"}
+          - if current_user.participations.where(construction_site_id: @construction_site.id).empty?
+          -else
+            - if current_user.participations.where(construction_site_id: @construction_site.id).first.role == "manager"
+              %li
+                = link_to edit_construction_site_path(@construction_site), :remote => true, 'data-toggle'=> "modal", 'data-target' => '#constructionSiteModal' do
+                  %i.fa.fa-pencil{:style => "color:lightblue"}
+                  = t("buttons.edit")
+            - if current_user.participations.where(construction_site_id: @construction_site.id).first.role == "manager"
+              %li
+                = link_to construction_site_path(@construction_site), :method => "delete", :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Вы уверены, что хотите удалить объект?')) } do
+                  %i.fa.fa-trash-o{:style => "color:lightblue"}
+                  = t("buttons.delete")
+            - if current_user.participations.where(construction_site_id: @construction_site.id).first.role == "manager"
+              %li
+                = link_to archive_construction_site_path(@construction_site), :remote => true do
+                  %i.fa.fa-archive{:style => "color:lightblue"}
+                  = t("buttons.archive")
+        %span.pull-right
+          %button#dropdownUsers.btn.btn-link.dropdown-toggle{"aria-expanded" => "true", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+            %span.text-muted
+              %i.fa.fa-user{"aria-hidden" => "true"}
+              = @construction_site.participations.count
+            %span.caret
+          %ul.dropdown-menu{"aria-labelledby" => "dropdownUsers"}
+            - @construction_site.participations.each do |p|
+              %li
+                = mail_to p.user.email, p.user.email
+
+      %hr/
+      #cs_attachment_new
+        = render :partial => "attachments"
+      #dropzone_cs
+        #activities
+          = render "activities/activities_by_day"
+      .pagination
+        = will_paginate @activities
+      = render partial: "bottom_navbar", object: @construction_site, as: :construction_site
+    .col-sm-5.col-md-5.sidebar-right
+      %ul.nav.nav-pills
+        %li{:role => "presentation"}
+          = link_to task_list_construction_site_path(@construction_site), remote: true, id: "topButton" do
+            %i.fa.fa-tasks
+            = t("buttons.tasks")
+        %li{:role => "presentation"}
+          = link_to attachments_construction_site_path(@construction_site), remote: true, id: "topButton1" do
+            %i.fa.fa-file-o
+            = t("buttons.files")
+        %li{:role => "presentation"}
+          = link_to lead_time_construction_site_path(@construction_site), remote: true, id: "topButton2" do
+            %i.fa.fa-truck
+            = t("buttons.lead_time")
+        %li{:role => "presentation"}
+          = link_to project_data_construction_site_path(@construction_site), remote: true, id: "topButton3" do
+            %i.fa.fa-ellipsis-h
+      :javascript
+        $( "#topButton" ).click(function() {
+          $('#sidebar-right').html('<center><i class="fa fa-spinner fa-spin" style="font-size:30px"></i></center>');
+        });
+        $( "#topButton1" ).click(function() {
+          $('#sidebar-right').html('<center><i class="fa fa-spinner fa-spin" style="font-size:30px"></i></center>');
+        });
+        $( "#topButton2" ).click(function() {
+          $('#sidebar-right').html('<center><i class="fa fa-spinner fa-spin" style="font-size:30px"></i></center>');
+        });
+        $( "#topButton3" ).click(function() {
+          $('#sidebar-right').html('<center><i class="fa fa-spinner fa-spin" style="font-size:30px"></i></center>');
+        });
+      #sidebar-right
+
+  #leadTimeModal.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+    .modal-dialog{:role => "document"}
+      .modal-content
+        .modal-header
+          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+          %h4#leadTimeModalLabel.modal-title
+            = t("kanban.add_lead_time")
+        .modal-body
+          = render :partial => "form_add_lead_time", object: construction_site, as: :item
+        .modal-footer
+          %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
+            = t("buttons.back")

@@ -1,0 +1,23 @@
+= content_for :about do
+  .col-md-5
+    %h2{:style => "text-align: center"}
+      = t("users.create_account")
+    %br/
+    = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), :html => { :class => 'form-horizontal', :role => 'form', novalidate: true }) do |f|
+      = f.error_notification
+      .form-group
+        = f.input :email, input_html: { class: 'form-control' }, label: false, required: true, autofocus: true, placeholder: t("users.email")
+      .form-group
+        = f.input :password, input_html: { class: 'form-control' }, label: false, required: true, placeholder: t("users.password")
+      .form-group
+        = f.input :password_confirmation, input_html: { class: 'form-control' }, label: false, required: true, placeholder: t("users.confirm_password")
+      .form-group
+        = f.button :submit, :class => 'btn btn-primary btn-lg btn-block', value: t("users.start_working")
+      = render "devise/shared/links"
+    %br/
+  .col-md-7
+    .jumbotron
+      %center
+        %h1= t("cs.about.title")
+        %img.img-responsive{alt: "Generic placeholder image", src: "https://img-fotki.yandex.ru/get/93949/104136015.21/0_b8049_6eb60689_orig.png"}/
+        %p.lead= t("cs.about.desc")

@@ -1,0 +1,41 @@
+= content_for :welcome_page do
+  #myCarousel.carousel.slide{"data-ride" => "carousel"}
+    .carousel-inner
+      .item.active
+        .fill{style: "background-image:url(#{@services.first.picture});"}
+        .container
+          .carousel-caption
+            %h1
+              .text-center.lead.featurette-heading
+                = @services.first.name
+            %p
+              = @services.first.short_description
+            %p
+              = link_to 'Узнать больше', service_path(@services.first), :class => 'btn btn-primary btn-lg'
+      - @services.where.not(id: @services.first.id).each do |service|
+        .item
+          .fill{style: "background-image:url(#{service.picture});"}
+          .container
+            .carousel-caption
+              %h1
+                .text-center.lead.featurette-heading
+                  = service.name
+              %p
+                = service.short_description
+              %p
+                = link_to 'Узнать больше', service_path(service), :class => 'btn btn-primary btn-lg'
+    %a.left.carousel-control{"data-slide" => "prev", :href => "#myCarousel", :role => "button"}
+      %span.glyphicon.glyphicon-chevron-left{"aria-hidden" => "true"}
+      %span.sr-only Previous
+    %a.right.carousel-control{"data-slide" => "next", :href => "#myCarousel", :role => "button"}
+      %span.glyphicon.glyphicon-chevron-right{"aria-hidden" => "true"}
+      %span.sr-only Next
+  / /.carousel
+
+= content_for :title do
+  - a = String.new
+  - @services.all.each {|s| a << s.name.to_s + ", "}
+  = "Гипокауст — современная компания по созданию: " + a + "и т. д."
+
+= content_for :meta_description do
+  = "Молодая команда специалистов с большим опытом работы (более 10 лет), которая выделилась в отдельную организацию для создания своего неповторимого ноу-хау. Отопление, Вентиляция, Водоочистка, Электроснабжение, Сервис, Офисы, Промобъекты, Квартиры, Коттеджи"

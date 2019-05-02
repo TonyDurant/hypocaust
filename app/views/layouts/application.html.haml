@@ -1,0 +1,138 @@
+!!! 5
+%html(lang="en")
+  %head
+    %meta(charset="utf-8")
+    %meta(http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1")
+    %meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    %title= content_for?(:title) ? yield(:title) : t("about.desc")
+    %meta{:content => yield(:meta_description), :name => "description"}/
+    = csrf_meta_tags
+    / Le HTML5 shim, for IE6-8 support of HTML elements
+    /[if lt IE 9]
+    = stylesheet_link_tag "application", :media => "all"
+    = favicon_link_tag 'apple-touch-icon-144x144.png', :rel => 'apple-touch-icon', :type => 'image/png', :sizes => '144x144'
+    = favicon_link_tag 'apple-touch-icon-114x114.png', :rel => 'apple-touch-icon', :type => 'image/png', :sizes => '114x114'
+    = favicon_link_tag 'apple-touch-icon-72x72.png', :rel => 'apple-touch-icon', :type => 'image/png', :sizes => '72x72'
+    = favicon_link_tag 'apple-touch-icon.png', :rel => 'apple-touch-icon', :type => 'image/png'
+    = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
+    = javascript_include_tag "application"
+    = render partial: "share/vk_scripts"
+    = javascript_include_tag "//www.google.com/jsapi", "chartkick"
+    = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"
+
+  %body{:id => "#{controller_name}_#{action_name}"}
+    .navbar-wrapper
+      .container
+        .navbar.navbar-fixed-top.navbar-default{:role => "navigation"}
+          .container
+            .navbar-header
+              %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", type: "button"}
+                %span.sr-only Toggle navigation
+                %span.icon-bar
+                %span.icon-bar
+                %span.icon-bar
+              %a.navbar-brand{href: root_path}
+                = t("hypocaust")
+            .navbar-collapse.collapse
+              %ul.nav.navbar-nav
+                %li.my_tasks
+                  - if user_signed_in?
+                    - if params[:action] == "index" && params[:controller] == "construction_sites"
+                      - unless ConstructionSite.all.empty?
+                        = link_to t("cs.my_tasks"), my_tasks_construction_sites_path, remote: true
+                    - else
+                      - unless ConstructionSite.all.empty?
+                        = link_to t("cs.my_tasks"), my_tasks_construction_sites_path
+                %li
+                  - if user_signed_in?
+                    - if (current_user.status == "admin" || current_user.status == "earlybird")
+                      %button.btn.btn-link{"aria-controls" => "bugForm", "aria-expanded" => "false", "data-target" => "#bugForm", "data-toggle" => "collapse", :type => "button"}
+                        %i.fa.fa-bug
+              %ul.nav.navbar-nav.pull-right
+                - if user_signed_in?
+                  = yield :search
+                  = yield :favorites
+                  %li
+                    = link_to(activities_path, method: "get", :class => 'btn link') do
+                      %span.glyphicon.glyphicon-bell{:style => "color:grey"}
+                  %li
+                    = link_to(edit_user_registration_path, method: "get", :remote => true, 'data-toggle'=> "modal", 'data-target' => '#deviseModal') do
+                      - if current_user.avatar?
+                        = image_tag(current_user.avatar, {:class => 'img-circle', :style => "width: 25px;"})
+                      - elsif current_user.avatar == nil
+                        = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 25px;"})
+                      - else
+                        = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 25px;"})
+                  %li
+                    = link_to(destroy_user_session_path, method: "delete", :class => 'btn link') do
+                      %span.glyphicon.glyphicon-log-out{:style => "color:grey"}
+                - else
+                  %li
+                    = link_to user_session_path do
+                      %span.glyphicon.glyphicon-log-in{:style => "color:grey"}
+                  %li
+                    = link_to new_user_registration_path do
+                      = t("form.sign_up")
+
+    = yield :post_top_teaser
+    = yield :welcome_page
+    = yield :about
+    = yield :sign_up
+    .container
+      /= bootstrap_flash
+      - if !notice.blank?
+        :javascript
+          $(document).ready(function () {
+            $.notify("#{notice}");
+          });
+      - if user_signed_in?
+        - if (current_user.status == "admin" || current_user.status == "earlybird")
+          #bugForm.collapse
+            .well
+              = render :partial => "tasks/add_ticket"
+      = yield
+
+    - unless action_name == "index"
+      %footer
+        .container-fluid
+          %hr/
+          .row
+            .col-md-4{:style => "text-align: center; vertical-align: top;"}
+              %p
+                &copy; 2012 ...
+                = Time.now.year
+                = t("hypocaust")
+              %p
+                = mail_to "info@hypocaust.org"
+              %p.text-muted
+                = t('footer.slogan')
+              %p
+            .col-md-4{:style => "text-align: center; vertical-align: top;"}
+              %p
+                = link_to about_posts_path do
+                  = t('footer.about')
+              %p
+                = link_to about_construction_sites_path do
+                  = t('footer.about_cs')
+              %p
+                = link_to url_for( :locale => 'en' ) do
+                  = t("language.eng")
+              %p
+                = link_to url_for( :locale => 'ru' ) do
+                  = t("language.ru")
+              /%p= link_to "Услуги", services_path
+              /%p= link_to "Блог", posts_path
+              /%p= link_to "Контакты", contact_us_services_path
+            .col-md-4{:style => "text-align: center; vertical-align: top;"}
+              %a{:href => "#"}
+                =t('footer.up')
+              %p
+
+    = render partial: "share/yandex_metrik"
+    = render partial: "posts/disqus_comment_link"
+    = render partial: "devise/registrations/devise_modal"
+
+    :javascript
+      $( ".my_tasks" ).click(function() {
+        $('#construction_site').html('<center><i class="fa fa-spinner fa-spin" style="font-size:30px"></i></center>');
+      });

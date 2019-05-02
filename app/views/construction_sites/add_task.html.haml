@@ -1,0 +1,19 @@
+= render :partial => "header"
+= render :partial => "tabs"
+= render partial: "form_add_task", object: @construction_site
+
+= content_for :title do
+  = @construction_site.name
+
+= content_for :meta_description do
+  = @construction_site.name
+
+:javascript
+  $(document).ready(function(){
+      $('.datepicker').datepicker({
+      autoclose: true,
+      orientation: "bottom left",
+      format: "dd/mm/yyyy",
+      todayHighlight: true
+      });
+  });

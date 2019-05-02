@@ -1,0 +1,61 @@
+= div_for(task, class: "bs-callout bs-callout-#{task.color} #{"task_" + task.id.to_s}") do
+  .pull-right
+    .btn-group
+      %button.btn.btn-default.btn-xs.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+        %i.fa.fa-ellipsis-h
+      %ul.dropdown-menu.dropdown-menu-right{"aria-labelledby" => "dLabel"}
+        %li
+          - if task.state == "todo"
+            = link_to take_task_path(task), remote: true do
+              %i.fa.fa-arrow-right{:style => "color:lightblue"}
+              = t("kanban.take_job")
+          - if task.state == "in progress"
+            = link_to done_task_path(task), remote: true do
+              %i.fa.fa-arrow-right{:style => "color:lightblue"}
+              = t("kanban.done")
+        %li
+          = link_to edit_task_path(task), remote: true do
+            %i.fa.fa-edit
+            = t("buttons.edit")
+        %li.divider{:role => "separator"}
+        %li
+          = link_to task_path(task), "data-confirm" => "Are you sure?", :method => :delete, :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Точно удалить пост?')) do
+            %span.glyphicon.glyphicon-trash
+            = t("buttons.delete")
+    - if !task.user.nil?
+      - if task.user.avatar && task.user.avatar != ""
+        = image_tag(task.user.avatar, {:class => 'img-circle', :style => "width: 20px;"})
+      - else
+        = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 20px;"})
+    - else
+      = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 20px;"})
+  %p
+    - if task.state == "done"
+      %i.fa.fa-check-circle{:style => "color:green"}
+    - if task.state == "todo"
+      %i.fa.fa-circle-o{:style => "color:lightblue"}
+    - if task.state == "in progress"
+      %i.fa.fa-circle{:style => "color:lightblue"}
+    - if action_name == "my_tasks" || params[:controller] == "activities"
+      = link_to truncate(task.name, length: 30), task_path(task), :remote => true, 'data-toggle'=> "modal", 'data-target' => '#taskModal'
+    - else
+      = link_to truncate(task.name, length: 30), task_path(task), :remote => true
+    %span.label.label-default
+      %i.fa.fa-clock-o{:style => "color:white"}
+      = task.duration.to_s + " " + t("attach.hrs")
+    - if task.end_time
+      - if task.end_time == Date.today
+        %span.label.label-warning
+          = t("task.today")
+      - if task.end_time < Date.today
+        %span.label.label-danger
+          = t("task.overdue")
+      - if task.end_time > Date.today
+        %span.label.label-default
+          %i.fa.fa-calendar-o{:style => "color:white"}
+          = task.end_time.to_formatted_s(:short_ordinal)
+    - if task.construction_site && action_name == "my_tasks"
+      = link_to construction_site_path(task.construction_site), remote: true do
+        %span.label.label-info
+          %i.fa.fa-home
+          = truncate(task.construction_site.name, length: 30)

@@ -1,0 +1,9 @@
+<% if @attachment.new_record? %>
+  alert("Failed to upload a file!")
+<% else %>
+  <% if @attachment.attachable_type == "ConstructionSite" %>
+    $("#activities").prepend("<%= j render_activities(@attachment.activities.last) %>");
+  <% else %>
+    $("#attachments").prepend("<%= j render_activities(@attachment.activities.last) %>");
+  <% end %>
+<% end %>

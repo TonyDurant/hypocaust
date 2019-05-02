@@ -1,0 +1,52 @@
+!!! 5
+%html(lang="en")
+  %head
+    %meta(charset="utf-8")
+    %meta(http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1")
+    %meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    %title= content_for?(:title) ? yield(:title) : "Гипокауст"
+    %meta{:content => yield(:meta_description), :name => "description"}/
+    = csrf_meta_tags
+    / Le HTML5 shim, for IE6-8 support of HTML elements
+    /[if lt IE 9]
+    = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"
+    = javascript_include_tag "//www.google.com/jsapi", "chartkick"
+    = stylesheet_link_tag "application", :media => "all"
+    = favicon_link_tag 'apple-touch-icon-144x144.png', :rel => 'apple-touch-icon', :type => 'image/png', :sizes => '144x144'
+    = favicon_link_tag 'apple-touch-icon-114x114.png', :rel => 'apple-touch-icon', :type => 'image/png', :sizes => '114x114'
+    = favicon_link_tag 'apple-touch-icon-72x72.png', :rel => 'apple-touch-icon', :type => 'image/png', :sizes => '72x72'
+    = favicon_link_tag 'apple-touch-icon.png', :rel => 'apple-touch-icon', :type => 'image/png'
+    = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
+    = javascript_include_tag "application"
+    = render partial: "share/vk_scripts"
+
+  %body
+    = yield :landing_page
+    .container
+      = yield
+
+    %footer
+      .container-fluid
+        %br/
+        .row
+          .col-md-4{:style => "text-align: center; vertical-align: top;"}
+            %p
+              &copy; 2013 ...
+              = Time.now.year
+              = t("footer.brand")
+            %p
+              +7 (499) 393-3744
+            %p
+              = mail_to "info@hypocaust.org"
+            %p.text-muted
+              = t("footer.slogan")
+            %p
+          .col-md-4{:style => "text-align: center; vertical-align: top;"}
+            %a.btn.btn-default{:href => url_for( :locale => 'en' ), :role => "button"} eng
+            %a.btn.btn-default{:href => url_for( :locale => 'ru' ), :role => "button"} rus
+          .col-md-4{:style => "text-align: center; vertical-align: top;"}
+            %a{:href => "#"}= t("footer.up")
+            %p
+
+    = render partial: "share/yandex_metrik"
+    = render partial: "posts/disqus_comment_link"

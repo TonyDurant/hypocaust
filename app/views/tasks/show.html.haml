@@ -1,0 +1,12 @@
+- model_class = Task
+.col-sm-12
+  %br
+  %ol.breadcrumb
+    %li
+      = link_to t("buttons.back"), kanban_construction_site_path(@task.construction_site)
+    %li.active
+      = @task.name
+  - @construction_site = @task.construction_site
+  = render "construction_sites/tabs", object: @construction_site
+  %br/
+  = render partial: "task_desc"

@@ -1,0 +1,20 @@
+/ Large modal
+
+#constructionSiteModal.modal.fade.bs-example-modal-lg{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-lg{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#constructionSiteModalLabel.modal-title
+          = t("cs.cs")
+      .modal-body
+        #construction_site_form
+          %center
+            %i.fa.fa-spinner.fa-spin{:style => "font-size:30px"}
+        .row
+      .modal-footer
+        %center
+          %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
+            = t("buttons.close")
+          /%button.btn.btn-primary{:type => "button"} Save changes

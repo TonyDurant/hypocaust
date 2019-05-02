@@ -1,0 +1,10 @@
+.col-sm-6.col-md-6.main
+  .container-fluid
+    #tasks_to_do
+      .col-md-12
+        .lead
+          %i.fa.fa-calendar{"aria-hidden" => "true"}
+          = t("kanban.scope_of_work_for_today")
+        = render :partial => "tasks/task_todo", :collection => @tasks.where({ state: ["todo", "in progress"]}).where("DATE(end_time) <= ?", Date.today).order('created_at DESC'), :as => :task
+  .col-sm-5.col-md-5.sidebar-right
+    #sidebar-right

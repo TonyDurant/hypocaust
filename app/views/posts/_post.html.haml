@@ -1,0 +1,46 @@
+#post
+.media
+  %a.pull-right{href: "#"}
+    - if post.user.avatar && post.user.avatar != ""
+      = image_tag(post.user.avatar, {:class => 'img-circle', :style => "width: 35px;"})
+    -else
+      = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 35px;"})
+  .media-body
+    .text-muted
+      %i.fa.fa-clock-o{:style => "color:grey"}
+      = ((Time.now.utc - post.created_at) / 1.hour).to_i
+      = "ч."
+      = " | "
+      - if !post.url.nil?
+        = link_to post.url do
+          - if post.user.name && post.user.last_name
+            = post.user.try(:name) + " " + post.user.try(:last_name)
+          - else
+            = post.user.email
+      - else
+        - if post.user.name && post.user.last_name
+          = post.user.try(:name) + " " + post.user.try(:last_name)
+        - else
+          = post.user.email
+      = " | "
+      %span.glyphicon.glyphicon-briefcase
+      - if post.try(:blog)
+        = link_to post.blog.try(:name), posts_blog_path(post.blog)
+      = " | "
+      %span.glyphicon.glyphicon-comment
+      = link_to post.comments.count.to_s, post_path(post)
+    %h3.media-heading
+      = link_to post.title, post_path(post)
+    %p
+      - if !post.image_url.nil?
+        %img.featurette-image.img-responsive{alt: "Service picture", src: post.image_url}
+    %p
+      = truncate(post.short_desc, length: 600)
+    %p
+      = link_to 'Читать дальше →', post_path(post), :class => 'btn btn-default'
+      - if post.favorites.where(user_id: current_user.id).empty?
+        %span{:data_post_id => "#{post.id}"}
+          %i.fa.fa-star-o.addtofavAction{:style => "font-size:18px"}
+      - else
+        %span{:data_post_id => "#{post.id}"}
+          %i.fa.fa-star{:style => "font-size:18px; color: lightblue"}

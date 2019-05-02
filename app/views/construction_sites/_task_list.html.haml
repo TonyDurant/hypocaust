@@ -1,0 +1,19 @@
+#task_list
+  .lead
+    = t("buttons.tasks") + " (#{@construction_site.tasks.count})"
+    .pull-right
+      = link_to add_task_construction_site_path(@construction_site), remote: true do
+        %i.fa.fa-plus-square-o.lead{:style => "color:grey"}
+  %p
+    - @tasks = @construction_site.tasks
+    - if @tasks.where({ state: ["todo", "in progress"]}).order('created_at DESC').empty?
+      = render :partial => "construction_sites/empty_task"
+    - else
+      = render :partial => "tasks/task_todo", :collection => @tasks.where({ state: ["todo", "in progress"]}).order('created_at DESC'), :as => :task
+  %hr
+    #completed_tasks
+      = link_to t("task.completed_tasks"), completed_tasks_construction_site_path(@construction_site), remote: true, id: "completed_tasks_button"
+    :javascript
+      $( "#completed_tasks_button" ).click(function() {
+        $('#completed_tasks').html('<center><i class="fa fa-spinner fa-spin" style="font-size:30px"></i></center>');
+      });

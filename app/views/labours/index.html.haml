@@ -1,0 +1,37 @@
+- model_class = Labour
+.page-header
+  %h1=t '.title', :default => model_class.model_name.human.pluralize.titleize
+%table.table.table-striped
+  %thead
+    %tr
+      %th= model_class.human_attribute_name(:id)
+      %th= model_class.human_attribute_name(:name)
+      %th= model_class.human_attribute_name(:product_id)
+      %th= model_class.human_attribute_name(:system_id)
+      %th= model_class.human_attribute_name(:unit)
+      %th= model_class.human_attribute_name(:price)
+      %th= model_class.human_attribute_name(:description)
+      %th= model_class.human_attribute_name(:service_id)
+      %th= model_class.human_attribute_name(:user_id)
+      %th= model_class.human_attribute_name(:currency)
+      %th= model_class.human_attribute_name(:created_at)
+      %th=t '.actions', :default => t("helpers.actions")
+  %tbody
+    - @labours.each do |labour|
+      %tr
+        %td= link_to labour.id, labour_path(labour)
+        %td= labour.name
+        %td= labour.product_id
+        %td= labour.system_id
+        %td= labour.unit
+        %td= labour.price
+        %td= labour.description
+        %td= labour.service_id
+        %td= labour.user_id
+        %td= labour.currency
+        %td=l labour.created_at
+        %td
+          = link_to t('.edit', :default => t("helpers.links.edit")), edit_labour_path(labour), :class => 'btn btn-default btn-xs'
+          = link_to t('.destroy', :default => t("helpers.links.destroy")), labour_path(labour), :method => :delete, :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }, :class => 'btn btn-xs btn-danger'
+
+= link_to t('.new', :default => t("helpers.links.new")), new_labour_path, :class => 'btn btn-primary'

@@ -1,0 +1,10 @@
+<% if params[:scrolling] == "filescroll" %>
+  $('#construction_sites').append('<%= j render(partial: "construction_sites/construction_site_thumbnail", collection: @construction_sites, as: :construction_site) %>');
+  <% if @construction_sites.next_page %>
+    $('.pagination').replaceWith('<%= j will_paginate(partial: "construction_sites/construction_site_thumbnail", collection: @construction_sites, as: :construction_site) %>');
+  <% else %>
+    $('.pagination').remove();
+  <% end %>
+<% else %>
+  $("#construction_site").html('<%= j render "archived_projects" %>');
+<% end %>

@@ -1,0 +1,23 @@
+%ul.nav.nav-tabs
+  %li{:role => "presentation"}
+    = link_to construction_site_path(@construction_site) do
+      %i.fa.fa-tachometer
+      = t("kanban.dashboard")
+  %li{:role => "presentation"}
+    = link_to kanban_construction_site_path(@construction_site) do
+      %i.fa.fa-tasks
+      = t("kanban.kanban")
+  %li{:role => "presentation"}
+    = link_to metrics_construction_site_path(@construction_site) do
+      %span.glyphicon.glyphicon-stats
+      = t("kanban.metrics")
+  %li{:role => "presentation"}
+    = link_to comments_construction_site_path(@construction_site) do
+      %span.glyphicon.glyphicon-comment
+      = t("kanban.discussions")
+  %li{:role => "presentation"}
+    = link_to data_construction_site_path(@construction_site) do
+      %i.fa.fa-ellipsis-h
+      = t("kanban.site_data")
+  %li.pull-right{:role => "presentation"}
+    = link_to t("kanban.add_task"), add_task_construction_site_path(@construction_site)

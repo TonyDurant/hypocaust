@@ -1,0 +1,31 @@
+$('#activities').prepend('<%= j render_activities(@activities) %>');
+$(".new_comment_field").find('form')[0].reset();
+
+<% if @activities.first.parameters[:commentable_type] == "Task" %>
+  $('#comments').prepend('<%= j render_activities(@activities) %>');
+  $('#sidebar-right').find('form')[0].reset();
+<% end %>
+
+<% if @activities.first.parameters[:commentable_type] == "Comment" %>
+  $(".<%= "comment_" + @comment.commentable.id.to_s %>").replaceWith("<%= j render(:partial => 'comments/comment', :object => @comment.commentable, as: :comment) %>");
+  $('#sidebar-right').find('form')[0].reset();
+<% end %>
+
+$("html, body").animate({"scrollTop": $(".<%= "comment_" + @comment.id.to_s %>").scrollTop() - 250}, 500);
+
+//<% if @activities.first.recipient_type == "ConstructionSite" %>
+//  $('#activities').prepend('<%= j render_activities(@activities) %>');
+//  $('#bottom_navbar_comment_field').find('form')[0].reset();
+//  $('#comments').prepend('<%= j render_activities(@activities) %>');
+//  $('#sidebar-right').find('form')[0].reset();
+//<% end %>
+//
+//<% if @activities.first.parameters[:commentable_type] == "Task" %>
+//  $('#comments').prepend('<%= j render_activities(@activities) %>');
+//  $('#sidebar-right').find('form')[0].reset();
+//<% end %>
+//
+//<% if @comment.commentable_type == "Comment" %>
+//  $(".<%= "comment_" + @comment.commentable.id.to_s %>").replaceWith("<%= j render(:partial => 'comments/comment', :object => @comment.commentable, as: :comment) %>");
+//  $('#sidebar-right').find('form')[0].reset();
+//<% end %>

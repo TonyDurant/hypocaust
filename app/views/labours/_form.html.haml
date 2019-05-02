@@ -1,0 +1,12 @@
+= simple_form_for @labour, :html => { :class => 'form-horizontal' } do |f|
+  = f.input :name
+  = f.input :product_id
+  = f.input :system_id
+  = f.input :unit
+  = f.input :price
+  = f.input :description
+  .form-group
+    = f.association :service, label_method: :name, value_method: :id, include_blank: false, input_html: { class: 'form-control' }, label: "Какой услуге принадлежит данная работа"
+  = f.input :currency
+  = f.button :submit, :class => 'btn-primary'
+  = link_to t('.cancel', :default => t("helpers.links.cancel")), labours_path, :class => 'btn btn-default'

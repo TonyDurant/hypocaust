@@ -1,0 +1,46 @@
+- model_class = Service
+.page-header{:style => "text-align: left; vertical-align: top;"}
+  %h1
+    = 'Черновики'
+    - if current_user.try(:status) == 'admin'
+      = link_to '+ Добавить', new_service_path, :class => 'btn btn-default'
+    %ul.nav.nav-pills.pull-right
+      %li{:role => "presentation"}
+        %a{:href => services_path } Услуги
+      %li{:role => "presentation"}
+        %a{:href => out_of_the_box_services_path } Решения из коробки
+      - if current_user.try(:status) == 'admin'  
+        %li.active{:role => "presentation"}
+          %a{:href => drafts_services_path }
+            - if @services_in_draft.count > 0
+              Черновики 
+              %span.badge
+                = @services_in_draft.count
+  %p.lead
+    Черновики, которые ожидают публикации.
+  /%em.lead
+  /Мы немного отличаемся от других сайтов. Вот почему:
+
+- @services_in_draft.each do |service|
+  .row.featurette
+    .col-md-5
+      %img.featurette-image.img-responsive{alt: "Service picture", src: service.picture}/
+    .col-md-7
+      %h2.featurette-heading
+        = link_to service.name, service_path(service)
+      %p.lead= service.short_description
+      %a= link_to 'Подробнее', service_path(service), :class => 'btn btn-lg btn-primary'
+      - if current_user.try(:status) == "admin" 
+        = link_to edit_service_path(service) do
+          %span.glyphicon.glyphicon-pencil
+        = link_to service_path(service), :method => :delete, :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Точно удалить пост?')) do
+          %span.glyphicon.glyphicon-trash
+  %hr.featurette-divider/
+
+= content_for :title do
+  - a = String.new
+  - @services_in_draft.each {|s| a << s.name.to_s + ", "}
+  = "Услуги: " + a
+
+= content_for :meta_description do
+  = "В данном разделе представлена информация об услугах, которые мы предлагаем. Также вы найдете информацию, почему мы отличаемся от других инженерных компаний."

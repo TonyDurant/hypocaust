@@ -1,0 +1,41 @@
+#task_edit_form
+  .lead= t("tasks.edit")
+  %hr/
+  .row-fluid
+    = simple_form_for @task, :html => { :class => 'form-horizontal', :role => 'form', remote: true} do |f|
+      .form-group
+        = f.input :name, placeholder: t("task.name_label"), input_html: { class: 'form-control' }, required: true, label: t("task.name")
+      .form-group
+        = f.trix_editor :desc, placeholder: t("task.desc_label"), input_html: { class: 'form-control' }, required: true, label: t("task.desc")
+        /= f.input :desc, placeholder: t("task.desc_label"), input_html: { class: 'form-control' }, required: true, label: t("task.desc")
+      .form-group
+        = f.input :end_time, as: :string, placeholder: t("task.end_time"), input_html: { class: 'datepicker form-control' }, label: t("task.end_time")
+      .form-group
+        = f.input :duration, placeholder: t("task.duration"), input_html: { class: 'form-control' }, required: true, label: t("task.duration_label")
+      .form-group
+        = f.input :color, input_html: { class: 'form-control' }, collection: [[t("task.green"), 'green'], [t("task.yellow"), 'yellow'], [t("task.red"), 'red'], [t("task.blue"), 'info']], label: t("task.color_label"), include_blank: false
+      %hr
+      .form-group
+        = f.association :sprint, collection: @task.construction_site.sprints, label_method: :name, value_method: :id, include_blank: false, input_html: { class: 'form-control' }, label: t("task.sprint_label")
+      .form-group
+        = f.association :user, collection: @task.construction_site.users, label_method: :email, value_method: :id, include_blank: false, input_html: { class: 'form-control' }, label: t("task.user")
+      = f.input :construction_site_id, :input_html => { :value => @task.construction_site.id }, as: :hidden
+      .form-group
+        = f.button :submit, :class => 'btn btn-default', value: t("buttons.edit")
+      %br/
+
+  = content_for :title do
+    = @task.name
+
+  = content_for :meta_description do
+    = @task.name
+
+  :javascript
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+        autoclose: true,
+        orientation: "bottom left",
+        format: "dd/mm/yyyy",
+        todayHighlight: true
+        });
+    });

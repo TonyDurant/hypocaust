@@ -1,0 +1,7 @@
+$("#sidebar-right").html("<%= j render(:partial => 'task_desc', :object => @task) %>");
+jQuery(function() {
+  return $('#new_attachment').fileupload({
+    dataType: "script",
+    dropZone: $('#dropzone')
+  });
+});

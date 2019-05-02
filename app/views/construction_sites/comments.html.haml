@@ -1,0 +1,8 @@
+= render :partial => "header"
+= render :partial => "tabs"
+= render :partial => "comments/comment_form", object: @construction_site, as: :item
+- unless @construction_site.comments.empty?
+  #comments
+    = render @comments
+
+= render partial: "tasks/task_modal", object: @task, as: :task

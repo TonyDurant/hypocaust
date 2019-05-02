@@ -1,0 +1,86 @@
+#attachment{:class => "#{attachment.id}"}
+  - unless params[:action] == "attachments"
+    - if ["image"].any? { |ext| attachment.attachment.content_type.include? ext }
+      = div_for(attachment, class: "#{"attachment_" + attachment.id.to_s}") do
+        .media-heading
+          = link_to download_attachment_path(attachment), :target => "_blank" do
+            = truncate(attachment.name, length: 30)
+          - if attachment.attachable_type == "Task" && attachment.attachable
+            = link_to task_path(attachment.attachable) do
+              %span.label.label-info
+                %i.fa.fa-tasks{:style => "color:white"}
+                = truncate(attachment.attachable.name, length: 25)
+          %span.text-muted{:style => "color:lightgrey"}
+          .text-muted
+            = (attachment.attachment.size.to_i / 1024).to_s + " KB"
+            = " | " + (attachment.attachment.content_type).to_s
+        = link_to download_attachment_path(attachment), :target => "_blank" do
+          = image_tag(download_attachment_path(attachment), {:class => 'img', :style => "max-width: 100%"})
+    - else
+      .media
+        .media-body
+          .media
+            .pull-left
+              - unless ["excel", "dwg", "numbers", "pages", "sheet", "word", "xls", "pdf"].any? { |ext| attachment.attachment.content_type.include? ext }
+                = link_to download_attachment_path(attachment), :target => "_blank" do
+                  = image_tag(download_attachment_path(attachment), {:class => 'img', :style => "width: 35px;"})
+              - else
+                - if ["dwg"].any? { |ext| attachment.attachment.content_type.include? ext } && attachment.attachable.construction_site.public
+                  %iframe{:scrolling => "no", :src => "//sharecad.org/cadframe/load?url=#{download_attachment_url(attachment)}"}
+                - else
+                  = link_to download_attachment_path(attachment), :target => "_blank" do
+                    %i.fa.fa-file-o{:style => "color:grey; font-size:35px"}
+            .media-body
+              %h5.media-heading
+                - if attachment.user.name && attachment.user.last_name
+                  = attachment.user.try(:name) + " " + attachment.user.try(:last_name)
+                - else
+                  = attachment.user.email
+                %span.text-muted{:style => "color:lightgrey"}
+                  %i.fa.fa-clock-o{:style => "color:lightgrey"}
+                  = attachment.created_at.strftime("%d-%B-%Y, %H:%M")
+              = link_to download_attachment_path(attachment), :target => "_blank" do
+                = truncate(attachment.name, length: 30)
+              - if attachment.attachable_type == "Task"
+                = link_to task_path(attachment.attachable) do
+                  %span.label.label-info
+                    %i.fa.fa-tasks{:style => "color:white"}
+                    = truncate(attachment.attachable.name, length: 25)
+              %span.text-muted{:style => "color:lightgrey"}
+              .text-muted
+                = (attachment.attachment.size.to_i / 1024).to_s + " KB"
+                = " | " + (attachment.attachment.content_type).to_s
+  - else
+    .media
+      .media-body
+        .media
+          .pull-left
+            - unless ["excel", "dwg", "numbers", "pages", "sheet", "word", "xls", "pdf"].any? { |ext| attachment.attachment.content_type.include? ext }
+              = link_to download_attachment_path(attachment), :target => "_blank" do
+                = image_tag(download_attachment_path(attachment), {:class => 'img', :style => "width: 35px;"})
+            - else
+              - if ["dwg"].any? { |ext| attachment.attachment.content_type.include? ext } && attachment.attachable.construction_site.public
+                %iframe{:scrolling => "no", :src => "//sharecad.org/cadframe/load?url=#{download_attachment_url(attachment)}"}
+              - else
+                = link_to download_attachment_path(attachment), :target => "_blank" do
+                  %i.fa.fa-file-o{:style => "color:grey; font-size:35px"}
+          .media-body
+            %h5.media-heading
+              - if attachment.user.name && attachment.user.last_name
+                = attachment.user.try(:name) + " " + attachment.user.try(:last_name)
+              - else
+                = attachment.user.email
+              %span.text-muted{:style => "color:lightgrey"}
+                %i.fa.fa-clock-o{:style => "color:lightgrey"}
+                = attachment.created_at.strftime("%d-%B-%Y, %H:%M")
+            = link_to download_attachment_path(attachment), :target => "_blank" do
+              = truncate(attachment.name, length: 30)
+            - if attachment.attachable_type == "Task"
+              = link_to task_path(attachment.attachable) do
+                %span.label.label-info
+                  %i.fa.fa-tasks{:style => "color:white"}
+                  = truncate(attachment.attachable.name, length: 25)
+            %span.text-muted{:style => "color:lightgrey"}
+            .text-muted
+              = (attachment.attachment.size.to_i / 1024).to_s + " KB"
+              = " | " + (attachment.attachment.content_type).to_s

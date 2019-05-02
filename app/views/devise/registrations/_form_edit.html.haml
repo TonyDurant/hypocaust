@@ -1,0 +1,44 @@
+.row-fluid
+  = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }, :html => { :class => 'form-horizontal', :role => 'form', novalidate: true }) do |f|
+    = f.error_notification
+    %center
+      .lead
+        = t("form.profile_picture")
+      .form-group
+        - if current_user.avatar && current_user.avatar != ""
+          = image_tag(current_user.avatar, {:class => 'img-circle', :style => "width: 190px;"})
+        - else
+          = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 190px;"})
+        %br/
+        %br/
+        = f.input :avatar, required: true, input_html: { class: 'form-control' }, label: false, placeholder: t("form.image_url"), hint: t("form.square_image_alert")
+    .lead
+      = t("form.main_information")
+    .form-group
+      = f.input :name, required: true, input_html: { class: 'form-control' }, label: false, placeholder: t('form.name'), autofocus: true
+    .form-group
+      = f.input :last_name, required: true, input_html: { class: 'form-control' }, label: false, placeholder: t("form.last_name")
+    %br/
+    .lead
+      = t("form.account_information")
+    .form-group
+      = f.input :email, required: true, input_html: { class: 'form-control' }, label: false, placeholder: t('form.email')
+      - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+        %p
+          Currently waiting confirmation for: #{resource.unconfirmed_email}
+    %br/
+    .lead
+      = t("form.password_change")
+      %p.text-muted
+        = t("form.password_change_desc")
+    .form-group
+      = f.input :password, autocomplete: "off", hint: t("form.blank_field"), required: false, input_html: { class: 'form-control' }, label: false, placeholder: t("form.new_password")
+    .form-group
+      = f.input :password_confirmation, required: false, required: false, input_html: { class: 'form-control' }, label: false, placeholder: t("form.comfirm_password")
+    %br/
+    .lead
+      = t("form.confirm_changes")
+    .form-group
+      = f.input :current_password, hint: t("form.why_to_confirm"), required: true, required: false, input_html: { class: 'form-control' }, label: false, placeholder: t("form.current_password")
+    .form-group
+      = f.button :submit, :class => 'btn btn-default', value: t("form.save_changes")

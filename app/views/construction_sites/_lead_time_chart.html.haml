@@ -1,0 +1,3 @@
+- unless @lead_time_data.empty?
+  = timeline @lead_time_data, height: "#{@lead_time_data.count <= 3 ? @lead_time_data.count * 70 + 30 : @lead_time_data.count * 55 + 15}px"
+  = render @lead_times

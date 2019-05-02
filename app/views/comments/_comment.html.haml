@@ -1,0 +1,93 @@
+= div_for(comment, class: "#{"comment_" + comment.id.to_s}") do
+  .media
+    %a.pull-left{href: "#"}
+      - if comment.user.avatar && comment.user.avatar != ""
+        = image_tag(comment.user.avatar, {:class => 'img-circle', :style => "width: 35px;"})
+      - else
+        = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 35px;"})
+    .media-body
+      %h5.media-heading
+        - if comment.user.name && comment.user.last_name
+          = comment.user.try(:name) + " " + comment.user.try(:last_name)
+        - else
+          = comment.user.email
+        %span.text-muted{:style => "color:lightgrey"}
+          %i.fa.fa-clock-o{:style => "color:lightgrey"}
+          = comment.created_at.strftime("%d-%b-%Y, %H:%M")
+        - if comment.activities.count > 2
+          %span.text-muted{:style => "color:lightgrey"}
+            %i.fa.fa-pencil{:style => "color:lightgrey"}
+            = t("comment.edited")
+        /%span.i.fa.fa-ellipsis-h.pull-right
+      .text-muted
+        - if params[:action] == "show" && comment.commentable_type == "Task" && params[:controller] == "construction_sites"
+          = t("activity.added")
+          = " "
+          %i.fa.fa-comment{:style => "color:lightgrey"}
+          = t("activity.to")
+          = link_to comment.primary_comment.commentable.try(:name), comment.primary_comment.commentable, remote: true
+        - if params[:action] == "index" && params[:controller] == "construction_sites"
+          = t("activity.added")
+          = " "
+          %i.fa.fa-comment{:style => "color:lightgrey"}
+          = t("activity.to")
+          = link_to comment.primary_comment.commentable.try(:name), comment.primary_comment.commentable, remote: true
+      - if comment.commentable_type == "Comment"
+        %blockquote
+          = render :partial => 'comments/comment_quoted', :object => @comment.commentable, as: :comment
+      = comment.body.prep.urls_to_images.newlines_to_br.urls_to_links
+      - if comment.commentable_type.camelcase.singularize == "ConstructionSite"
+        = link_to make_task_comment_path(comment), remote: true do
+          %i.fa.fa-tasks{:style => "color:lightblue"}
+          = t("tasks.make_task")
+      - unless comment.link_thumbnails.empty?
+        - comment.link_thumbnails.each do |lt|
+          %blockquote
+            %p= link_to lt.name, lt.url, :target => '_blank'
+            %p= lt.desc
+            %p
+              - if lt.image
+                = link_to lt.url, :target => '_blank' do
+                  = image_tag(lt.image, {:class => 'img-rounded', :style => "width: 50%;"})
+
+      - unless comment.comments.empty?
+        - comment.comments.order('created_at ASC').each do |reply|
+          = div_for(reply, class: "#{"comment_" + reply.id.to_s}") do
+            .media
+              %a.pull-left{href: "#"}
+                - if reply.user.avatar && reply.user.avatar != ""
+                  = image_tag(reply.user.avatar, {:class => 'img-circle', :style => "width: 35px;"})
+                - else
+                  = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 35px;"})
+              .media-body
+                %h5.media-heading
+                  - if reply.user.name && reply.user.last_name
+                    = reply.user.try(:name) + " " + reply.user.try(:last_name)
+                  - else
+                    = reply.user.email
+                  %span.text-muted{:style => "color:lightgrey"}
+                    %i.fa.fa-clock-o{:style => "color:lightgrey"}
+                    = reply.created_at.strftime("%d-%b-%Y, %H:%M")
+                  - if comment.activities.count > 2
+                    %span.text-muted{:style => "color:lightgrey"}
+                      %i.fa.fa-pencil{:style => "color:lightgrey"}
+                      = t("comment.edited")
+                = reply.body.prep.urls_to_images.newlines_to_br.urls_to_links
+                - unless reply.link_thumbnails.empty?
+                  - reply.link_thumbnails.each do |lt|
+                    %blockquote
+                      %p= link_to lt.name, lt.url, :target => '_blank'
+                      %p= lt.desc
+                      %p
+                        - if lt.image
+                          = link_to lt.url, :target => '_blank' do
+                            = image_tag(lt.image, {:class => 'img-rounded', :style => "width: 50%;"})
+
+      - @tasks = comment.tasks
+      /= render @tasks
+      = render :partial => "tasks/task_todo", :collection => @tasks, :as => :task
+      %p
+      - if comment == comment.primary_comment
+        = div_for(comment, class: "#{"reply_" + comment.id.to_s}") do
+          %i.fa.fa-reply{:style => "color:lightblue"}
+          = link_to t("buttons.add_comment"), reply_comment_path(comment.primary_comment), remote: true

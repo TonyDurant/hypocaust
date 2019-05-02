@@ -1,0 +1,20 @@
+.container
+  .col-md-8
+    - if @posts.empty?
+      %br/
+      .alert.alert-info{:role => "alert"} Упс... Вы еще ничего не сохранили сюда. Чтобы добавить статью в избранное, нажмите на изображение звезды внизу статьи.
+    #posts
+      = render @posts
+  .col-md-4
+
+.pagination-centered
+  = will_paginate @posts
+
+= content_for :vk_button do
+  = render partial: "posts/like_button_vk"
+
+= content_for :title do
+  = 'Блог Гипокауста: Интересные статьи про отопление, котельные, вентиляцию, кондиционирование в офисах, коттеджах и торговых центрах'
+
+= content_for :meta_description do
+  = "Гипокауст бережно собирает инженерные статьи из разных источников автоматически."

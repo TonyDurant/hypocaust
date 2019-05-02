@@ -1,0 +1,17 @@
+- @construction_site = ConstructionSite.where(name: "Гипокауст").first
+.alert.alert-info{:role => "alert"}
+  = "Вы являетесь ранним пользователем Гипокауст и можете сообщить о проблемме, баге или нестандартном поведении в программе. Это сделать просто, заполнив форму ниже. Каждый отчет о проблеме рассматривается отдельно. Мы ценим ваше внимание и участие. Как только ошибка будет исправлена, мы свяжемся с вами через имейл."
+.lead= "Сообщить об ошибке / баге в программе."
+%hr/
+= simple_form_for Task.new, :html => { :class => 'form-horizontal', :role => 'form'} do |f|
+  .form-group
+    = f.input :name, placeholder: "Главная страница объектов", input_html: { class: 'form-control' }, required: true, label: "Раздел сайта в котором возникает ошибка."
+  .form-group
+    = f.input :desc, as: :string, placeholder: "Не корректно отображаются объекты. Я наблюдаю... Ожидаю увидеть...", input_html: { class: 'form-control' }, required: true, label: t("task.desc")
+  = f.input :duration, :input_html => { :value => 3 }, as: :hidden
+  = f.input :color, :input_html => { :value => 'red' }, as: :hidden
+  = f.input :sprint_id, :input_html => { :value => @construction_site.sprints.where(name: "Bug").first.id }, as: :hidden
+  = f.input :user_id, :input_html => { :value => current_user.id }, as: :hidden
+  = f.input :state, :input_html => { :value => 'todo' }, as: :hidden
+  = f.input :construction_site_id, :input_html => { :value => @construction_site.id }, as: :hidden
+  = f.button :submit, :class => 'btn btn-default', value: t("buttons.add_task")

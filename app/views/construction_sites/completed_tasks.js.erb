@@ -1,0 +1,5 @@
+<% if @tasks.empty? %>
+  $("#completed_tasks").html("<%= j render(:partial => "construction_sites/empty") %>");
+<% else %>
+  $("#completed_tasks").html("<%= j render(:partial => "tasks/task_todo", :collection => @tasks, :as => :task) %>");
+<% end %>

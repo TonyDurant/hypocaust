@@ -1,0 +1,33 @@
+- model_class = ConstructionSite
+- if (current_user.construction_sites.empty? && current_user.try(:status) == nil)
+  = render :partial => "about_kanban"
+- else
+  %ul.nav.nav-tabs
+    %li{:role => "presentation"}
+      = link_to t("cs.my_projects"), construction_sites_path
+    %li.active{:role => "presentation"}
+      = link_to t("cs.archive"), archived_projects_construction_sites_path
+    %li{:role => "presentation"}
+      = link_to t("cs.lead_time_chart").html_safe, lead_time_chart_construction_sites_path
+    - if (current_user.try(:status) == 'admin') || (current_user.try(:status) == 'earlybird')
+      %li.pull-right{:role => "presentation"}
+        = link_to t("cs.add_cs"), new_construction_site_path
+  %p
+.row
+  - unless @construction_sites.empty?
+    #construction_sites
+      = render partial: "construction_sites/construction_site_thumbnail", collection: @construction_sites, as: :construction_site
+.row
+  %center
+    .pagination-centered
+      = will_paginate @construction_sites
+.row
+  - if @construction_sites.empty?
+    .col-sm-12
+      .alert.alert-info{:role => "alert"} Упс... У вас пока нет проектов в архиве, ничего страшного. Выполните проект и отправьте его в архив... :)
+
+  = content_for :title do
+    = "Объекты в архиве"
+
+  = content_for :meta_description do
+    = "Объекты, которые находятся в архиве"

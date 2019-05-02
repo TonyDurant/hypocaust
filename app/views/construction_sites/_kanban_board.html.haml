@@ -1,0 +1,27 @@
+      .row
+        .col-md-12.col-lg-4
+          .lead
+            = t("kanban.todo")
+            = " / "
+            = @tasks.where(state: "todo").count
+          = render @tasks.where(state: "todo").order('created_at DESC')
+          - if @tasks.empty?
+            = render "empty"
+
+        .col-md-12.col-lg-4
+          .lead
+            = t("kanban.in_progress")
+            = " / "
+            = @tasks.where(state: "in progress").count
+          = render @tasks.where(state: "in progress").order('created_at DESC')
+          - if @tasks.empty?
+            = render "empty"
+
+        .col-md-12.col-lg-4
+          .lead
+            = t("kanban.done")
+            = " / "
+            = @tasks.where(state: "done").count
+          = render @tasks.where(state: "done").order('created_at DESC').take(15)
+          - if @tasks.empty?
+            = render "empty"

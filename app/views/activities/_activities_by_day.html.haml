@@ -1,0 +1,11 @@
+- @activities.group_by{|x| x.created_at.strftime("%B %d, %Y")}.keys.each do |k|
+  %br/
+  .container-fluid
+    .col-md-4
+      %hr
+    .col-md-4
+      %center
+        = k
+    .col-md-4
+      %hr
+  = render_activities @activities.group_by{|x| x.created_at.strftime("%B %d, %Y")}[k]

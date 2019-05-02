@@ -1,0 +1,23 @@
+= render :partial => "construction_site", object: @construction_site, as: :construction_site
+
+= content_for :title do
+  = @construction_site.name
+
+= content_for :meta_description do
+  = @construction_site.name
+
+= render partial: "tasks/task_modal", object: @task, as: :task
+
+#leadTimeModal.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#leadTimeModalLabel.modal-title
+          = t("kanban.add_lead_time")
+      .modal-body
+        = render :partial => "form_add_lead_time", object: @construction_site, as: :item
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
+          = t("buttons.back")

@@ -1,0 +1,74 @@
+= content_for :about do
+  /.centered-pills
+  /  %ul.nav.nav-pills
+  /    %li{:role => "presentation"}
+  /      %a{:href => about_posts_path }
+  /        = t("cs.about.news")
+  /    %li.active{:role => "presentation"}
+  /      %a{:href => about_construction_sites_path }
+  /        = t("cs.about.project")
+  /.jumbotron
+  /  %center
+  /    %h1= t("cs.about.title")
+  /    %p.lead= t("cs.about.desc")
+  .carousel-inner{:role => "listbox"}
+    - array = ["https://img-fotki.yandex.ru/get/196070/104136015.21/0_b9de4_2eaf6adb_orig.jpg"]
+    .fill-full-screen{style: "background-image:url(#{array.sample});"}
+    .container
+      .carousel-caption
+        %h1= t("cs.about.desc")
+        %p.lead= t("cs.about.aim")
+        /%p.lead= t("cs.about.master_desc")
+        %p
+          = link_to t("cs.about.start"), new_user_registration_path, :class => 'btn btn-lg btn-primary'
+        %p
+          =image_tag("https://img-fotki.yandex.ru/get/196631/104136015.21/0_b9e2f_88bda711_X4L.png", size: "100%", alt: "Edit Entry")
+          /%img.img-rounded{alt: "Generic placeholder image", src: "https://img-fotki.yandex.ru/get/196631/104136015.21/0_b9e2f_88bda711_X4L.png", :style => "height: 220px;"}
+  .container
+    %br/
+    .lead
+      %center
+        %h1= t("cs.about.how_it_works")
+        %p.lead= t("cs.about.how_it_works_desc")
+    .row
+      %center
+        .col-lg-4
+          %img.img-circle{alt: "Generic placeholder image", src: "https://img-fotki.yandex.ru/get/16193/104136015.20/0_b15e7_78ffcbd_M.png", :style => "height: 220px;"}
+          %h2= t('cs.about.emails')
+          %p= t('cs.about.emails_desc')
+        .col-lg-4
+          %img.img-circle{alt: "Generic placeholder image", src: "https://img-fotki.yandex.ru/get/3202/104136015.20/0_b15e8_638e8091_M.png", :style => "height: 220px;"}
+          %h2= t('cs.about.disc')
+          %p= t('cs.about.disc_desc')
+        .col-lg-4
+          %img.img-circle{alt: "Generic placeholder image", src: "https://img-fotki.yandex.ru/get/11/104136015.20/0_b15e9_d68929ef_M.png", :style => "height: 220px;"}
+          %h2= t('cs.about.docs')
+          %p= t('cs.about.docs_desc')
+    %hr/
+    /%br/
+    /.lead
+    /  %center
+    /    %h1= t("cs.about.cs")
+    /    %p.lead= t("cs.about.cs_desc")
+    /    .col-lg-6
+    /      %p.lead= t("cs.about.cs_desc")
+    /      %p.lead= t("cs.about.cs_desc")
+    /      %p.lead= t("cs.about.cs_desc")
+    /    .col-lg-6
+    /      %img.img-responsive{alt: "Generic placeholder image", src: "https://img-fotki.yandex.ru/get/59613/104136015.21/0_b822e_98593b7d_XL.png"}/
+    /%hr/
+    /%br/
+    /.lead
+    /  %center
+    /    %h1= t("cs.about.tasks")
+    /    %p.lead= t("cs.about.tasks_desc")
+    /    %img.img-responsive{alt: "Generic placeholder image", src: "https://img-fotki.yandex.ru/get/9501/104136015.20/0_b0fb4_11cf6b10_X4L.png"}/
+    /    %p
+    %center
+      = link_to t("cs.about.start"), new_user_registration_path, :class => 'btn btn-lg btn-primary'
+
+= content_for :title do
+  = t("cs.about.title")
+
+= content_for :meta_description do
+  = t("cs.about.desc")

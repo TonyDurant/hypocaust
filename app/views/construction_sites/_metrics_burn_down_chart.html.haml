@@ -1,0 +1,10 @@
+.row
+  .col-sm-12.col-md-12
+    .lead= t("metrics.burn_down_chart")
+    .text-muted= t("metrics.updates_day")
+.row
+  .col-sm-12.col-md-12
+    .thumbnail
+      .caption
+        %p
+          = area_chart @construction_site.sprints.map{|s| {name: s.name, data: s.metrics.group_by_day(:created_at).sum(:remain_hours)}}

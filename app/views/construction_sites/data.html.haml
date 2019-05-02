@@ -1,0 +1,9 @@
+= render :partial => "header"
+= render :partial => "tabs"
+= render :partial => "site_data"
+
+- if !@construction_site.attachments?
+  .lead= t("attach.attach")
+  .text-muted= t("attach.note")
+  #attachments
+    = render @attachments

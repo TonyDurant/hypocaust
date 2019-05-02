@@ -1,0 +1,20 @@
+= simple_form_for @lead_time, :html => { :class => 'form-horizontal', :role => 'form'}, remote: true do |f|
+  - if @lead_time.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@lead_time.errors.count, "error")} prohibited this lead_time from being saved:"
+      %ul
+        - @lead_time.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field
+    = f.input :title
+  .field
+    = f.input :user_id
+  .field
+    = f.input :construction_site_id
+  .field
+    = f.input :start_date
+  .field
+    = f.input :end_date
+  .actions
+    = f.submit 'Save'

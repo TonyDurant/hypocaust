@@ -1,0 +1,7 @@
+.alert.alert-warning.alert-dismissible.fade.in{:role => "alert"}
+  %button.close{"aria-label" => "Close", "data-dismiss" => "alert", :type => "button"}
+    %span{"aria-hidden" => "true"} ×
+  %strong= t("cs.tags_search")
+  - current_user.construction_sites_with_tasks.each do |cs|
+    = link_to construction_site_path(cs) do
+      %span.label.label-info= cs.name

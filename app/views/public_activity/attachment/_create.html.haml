@@ -1,0 +1,36 @@
+#activity
+- if activity.trackable
+  .media
+    .media-body
+      .media
+        %a.pull-left{href: "#"}
+          - if activity.owner.avatar && activity.owner.avatar != ""
+            = image_tag(activity.owner.avatar, {:class => 'img-circle', :style => "width: 35px;"})
+          - else
+            = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 35px;"})
+        .media-body
+          %h5.media-heading
+            - if activity.owner.name && activity.owner.last_name
+              = activity.owner.try(:name) + " " + activity.owner.try(:last_name)
+            - else
+              = activity.owner.email
+            %span.text-muted{:style => "color:lightgrey"}
+              %i.fa.fa-clock-o{:style => "color:lightgrey"}
+              = activity.created_at.strftime("%d-%B-%Y, %H:%M")
+          .text-muted
+            = t("activity.added")
+            %i.fa.fa-paperclip{:style => "color:lightgrey"}
+            = t("activity.file")
+            - if action_name == "index"
+              = t("activity.to")
+              - unless activity.trackable
+                = link_to activity.trackable.construction_site.name, construction_site_path(activity.trackable.construction_site), remote: true
+          - @attachment = activity.trackable
+          = render partial: "attachments/attachment", object: @attachment, as: :attachment
+-else
+  .media
+    %a.pull-left{href: "#"}
+      %span.glyphicon.glyphicon-home
+    .media-body
+      %h5.media-heading.text-muted
+        %i.fa.fa-trash-o{:style => "color:lightgrey"}

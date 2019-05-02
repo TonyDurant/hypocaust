@@ -1,0 +1,16 @@
+.media
+  .media-body
+    .media
+      %a.pull-left{href: "#"}
+        = image_tag("https://img-fotki.yandex.ru/get/109111/104136015.21/0_b7c35_f9e4fc0c_S.png", {:class => 'img-circle', :style => "width: 35px;"})
+      .media-body
+        %h5.media-heading
+          HypocaustBot
+          %span.text-muted{:style => "color:lightgrey"}
+            %i.fa.fa-clock-o{:style => "color:lightgrey"}
+            = Time.now.strftime("%d-%B-%Y, %H:%M")
+        .text-muted
+          = t("activity.advice")
+        #callout-alerts-no-default{:class => "bs-callout bs-callout-blue"}
+          %p
+            = t("activity.empty")

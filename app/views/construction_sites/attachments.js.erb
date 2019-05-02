@@ -1,0 +1,5 @@
+<% if @attachments.empty? %>
+  $("#sidebar-right").html("<%= j render(:partial => "construction_sites/empty") %>");
+<% else %>
+  $("#sidebar-right").html("<%= j render(@attachments) %>");
+<% end %>

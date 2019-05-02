@@ -1,0 +1,63 @@
+= content_for :about do
+  .centered-pills
+    %ul.nav.nav-pills
+      %li.active{:role => "presentation"}
+        %a{:href => about_posts_path }
+          = t("cs.about.news")
+      %li{:role => "presentation"}
+        %a{:href => about_construction_sites_path }
+          = t("cs.about.project")
+  .jumbotron
+    %center
+      %h1= t("about.title")
+      %p.lead= t("about.desc")
+      %p
+        = link_to t("about.learn_more"), new_user_registration_path, :class => 'btn btn-lg btn-primary'
+  .container
+    %img.img-responsive{alt: "Generic placeholder image", src: "https://img-fotki.yandex.ru/get/3414/104136015.20/0_b0af3_ef40e0d8_XXXL.png"}/
+    %hr/
+    %br/
+    .lead
+      %center
+        %h1= t("about.how_it_works")
+        %p.lead= t("about.how_it_works_desc")
+    .row
+      %center
+        .col-lg-4
+          %i.fa.fa-refresh.fa-spin{:style => "font-size:60px"}
+          %h2= t('about.gather')
+          %p= t('about.gather_desc')
+        .col-lg-4
+          %i.fa.fa-sort{:style => "font-size:60px"}
+          %h2= t('about.sort')
+          %p= t('about.sort_desc')
+        .col-lg-4
+          %i.fa.fa-eye{:style => "font-size:60px"}
+          %h2= t('about.show')
+          %p= t('about.show_desc')
+    %hr/
+    %br/
+    .lead
+      %center
+        %h1= t("about.sources")
+        %p.lead= t("about.sources_desc")
+      %img.img-responsive{alt: "Generic placeholder image", src: "https://img-fotki.yandex.ru/get/4203/104136015.20/0_b0ef1_c1fcf412_orig.png"}/
+    .row
+      %center
+        %a.btn.btn-default.btn-lg{:href => "http://geektimes.ru", :role => "button"} geektimes
+        %a.btn.btn-default.btn-lg{:href => "http://engineering-ru.livejournal.com", :role => "button"} engineering-ru
+        %a.btn.btn-default.btn-lg{:href => "http://www.c-o-k.ru", :role => "button"} c-o-k
+        %a.btn.btn-default.btn-lg{:href => "http://www.topclimat.ru", :role => "button"} TopClimat
+        %a.btn.btn-default.btn-lg{:href => "http://www.pufikhomes.com", :role => "button"} Pufikhomes
+        %a.btn.btn-default.btn-lg{:href => "http://www.engigeek.org", :role => "button"} Engigeek
+        %a.btn.btn-default.btn-lg{:href => "http://remstroiblog.ru", :role => "button"} Remstroiblog
+        %a.btn.btn-default.btn-lg{:href => "#", :role => "button"} ...
+        %p
+        = link_to t("about.learn_more"), new_user_registration_path, :class => 'btn btn-lg btn-primary'
+    %hr/
+    %br/
+    .lead
+      %center
+        %h1= t("about.chart")
+        %p.lead= t("about.chart_desc")
+        = line_chart Post.group_by_day(:created_at).count

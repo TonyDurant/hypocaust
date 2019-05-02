@@ -1,0 +1,37 @@
+%footer.navbar.navbar-fixed-bottom
+  .row-fluid
+    .col-sm-2.col-md-2{:style => "background-color: #553b58;"}
+      %span.navbar-collapse.collapse
+      %ul.nav.navbar-nav
+        - if user_signed_in?
+          %li
+            .media.account
+              = link_to(edit_user_registration_path, method: "get", :remote => true, 'data-toggle'=> "modal", 'data-target' => '#deviseModal') do
+                - if current_user.avatar && current_user.avatar != ""
+                  = image_tag(current_user.avatar, {:class => 'img-circle', :style => "width: 32px;"})
+                - else
+                  = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 32px;"})
+          %li
+            = link_to(destroy_user_session_path, method: "delete", :class => 'btn link') do
+              %span.glyphicon.glyphicon-log-out{:style => "color:grey"}
+    .col-sm-10.col-md-10{:style => "background-color: white;"}
+      %span.navbar-collapse.collapse
+        %form.navbar-form.navbar-left{:role => "search"}
+          .form-group
+            .dropup
+              %button#addTaskLeadTime.btn.btn-default.dropdown-toggle{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", :type => "button"}
+                +
+              %ul.dropdown-menu{"aria-labelledby" => "addTaskLeadTime"}
+                %li
+                  = link_to add_task_construction_site_path(@construction_site), remote: true do
+                    %i.fa.fa-tasks
+                    = t("task.new")
+                %li
+                  = link_to add_lead_time_construction_site_path(@construction_site), remote: true do
+                    %i.fa.fa-truck
+                    = t("kanban.add_lead_time")
+                %li
+                  = link_to href = "#" + @construction_site.id.to_s, "data-toggle" => "collapse", "data-target" => "#att_cs_" + @construction_site.id.to_s do
+                    %i.fa.fa-paperclip{:style => "color:lightblue"}
+                    = t("attach.add_attachment")
+        = render :partial => "comments/comment_form", object: @construction_site, as: :item

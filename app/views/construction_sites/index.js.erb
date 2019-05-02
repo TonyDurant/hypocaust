@@ -1,0 +1,10 @@
+<% if params[:scrolling] == "filescroll" %>
+  $('#activities').append('<%= j render "activities/activities_by_day" %>');
+  <% if @activities.next_page %>
+    $('.pagination').replaceWith('<%= j will_paginate(@activities) %>');
+  <% else %>
+    $('.pagination').remove();
+  <% end %>
+<% else %>
+  $("#construction_site").html("<%= j render(:partial => 'construction_sites/construction_site', :object => @construction_site) %>");
+<% end %>

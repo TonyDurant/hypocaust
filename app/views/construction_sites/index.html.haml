@@ -1,0 +1,45 @@
+.construction_site
+  /.row
+  .col-sm-2.col-md-2.sidebar
+    = render :partial => "sidebar"
+  #construction_site
+    .col-sm-6.col-md-6.main
+      .container-fluid
+        .col-md-12
+          -if @searchables
+            - if !@searchables.empty?
+              #searchables
+                %center.h4
+                  %i.fa.fa-search{"aria-hidden" => "true"}
+                  = t("cs.search_results")
+                = render partial: "construction_sites/searchables", collection: @searchables, as: :item
+                = render partial: "empty"
+          - else
+            #activities
+              %center.h4
+                %span.glyphicon.glyphicon-bell
+                = t("activity.activity")
+              %hr/
+              - if @activities.empty?
+                = render "welcome_page"
+              - unless current_user.name || current_user.avatar
+                = render "advice_account_info"
+              = render "activities/activities_by_day"
+
+            .pagination-centered= will_paginate @activities
+      .col-sm-5.col-md-5.sidebar-right
+        #sidebar-right
+
+= render partial: "construction_sites/form_modal"
+
+= content_for :title do
+  = t("cs.title")
+
+= content_for :meta_description do
+  = t("cs.meta_desc")
+
+= content_for :search do
+  %li
+    = form_tag construction_sites_path, class: "navbar-form", method: :get do
+      %p
+        = text_field_tag :query, params[:query], class: "form-control", placeholder: "🔍", :autofocus=>true

@@ -1,0 +1,25 @@
+= simple_form_for @service, :html => { :class => 'form-horizontal', :role => 'form', novalidate: true } do |f|
+  .form-group
+    = f.input :name, input_html: { class: 'form-control' }, label: "Название услуги", placeholder: 'Максимум 13 символов', :autofocus => true
+  .form-group
+    = f.input :short_description, input_html: { class: 'form-control' }, label: "Краткое описание услуги", placeholder: 'Водяное отопление, котельные, теплые полы...'
+  .form-group
+    = f.input :body, input_html: { class: 'form-control' }, label: "Полное описание услуги", placeholder: 'Система отопления, разрабатываемая в нашей компании...'
+  .form-group
+    = f.input :picture, input_html: { class: 'form-control' }, label: "Изображение", placeholder: 'Вставьте ссылку на фотографию'
+  
+  - if Service.where(service_type: "service").count > 1
+    .form-group
+      = f.input :service_type, input_html: { class: 'form-control' }, collection: [['Услуга', 'service'], ['Решение из коробки', 'out_of_the_box']], include_blank: false, label: "Выберите тип услуги"
+  - else
+    = f.input :service_type, :input_html => { :value => 'service' }, as: :hidden
+  .form-group
+    = f.input :price, input_html: { class: 'form-control' }, label: "Цена за услугу", placeholder: '2 000 руб./кв. м.'
+  %ul.list-inline
+    %li
+      .form-group
+        = f.check_box :draft, as: :boolean
+    %li Опубликовать как черновик
+  .form-group
+    = f.button :submit, :class => 'btn btn-default'
+    = link_to t('.cancel', :default => t("helpers.links.cancel")), services_path, :class => 'btn btn-default'

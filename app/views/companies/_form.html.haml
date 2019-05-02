@@ -1,0 +1,12 @@
+.row-fluid
+  .col-md-12
+    = simple_form_for Company.new, :html => { :class => 'form-horizontal', :role => 'form', novalidate: true } do |f|
+      .form-group
+        = f.input :name, input_html: { class: 'form-control' }, placeholder: t("company.name"), label: false, label: "Название вашей компании"
+      .form-group
+        = f.input :email, :input_html => { :value => current_user.email }, placeholder: t("company.email"), label: false, label: "Имейл компании для связи", as: :hidden
+      .form-group
+        = f.input :desc, :as => :string, input_html: { class: 'form-control', rows: 1 }, placeholder: t("company.desc"), label: false, label: "Краткое описание деятельности вашей компании"
+      .form-group
+        = f.button :submit, :class => 'btn btn-primary btn-lg btn-block', value: "Подать заявку"
+

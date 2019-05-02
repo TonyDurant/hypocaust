@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Title:
+  = @lead_time.title
+%p
+  %b User:
+  = @lead_time.user_id
+%p
+  %b Construction site:
+  = @lead_time.construction_site_id
+%p
+  %b Start date:
+  = @lead_time.start_date
+%p
+  %b End date:
+  = @lead_time.end_date
+
+= link_to 'Edit', edit_lead_time_path(@lead_time)
+\|
+= link_to 'Back', lead_times_path

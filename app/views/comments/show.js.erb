@@ -1,0 +1,2 @@
+$('#sidebar-right').html('<%= j render_activities(@comment.commentable.activities.first) %>');
+$("#sidebar-right").append("<%= j render(:partial => 'comment', :object => @comment) %>");

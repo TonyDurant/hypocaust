@@ -1,0 +1,22 @@
+%br/
+.lead= t("kanban.add_lead_time")
+%hr/
+= simple_form_for LeadTime.new, :html => { :class => 'form-horizontal', :role => 'form'}, remote: true do |f|
+  .form-group
+    = f.input :title, input_html: { class: 'form-control' }, required: true
+    = f.input :user_id, :input_html => { :value => current_user.id }, as: :hidden
+    = f.input :construction_site_id, :input_html => { :value => @construction_site.id }, as: :hidden
+  .form-group
+    = f.input :start_date, :as => :string, input_html: { class: 'datepicker form-control' }, required: true
+  .form-group
+    = f.input :end_date, :as => :string, input_html: { class: 'datepicker form-control' }, required: true
+  = f.button :submit, :class => 'btn btn-default', value: t("cs.form.save_data")
+:javascript
+  $(document).ready(function(){
+      $('.datepicker').datepicker({
+      autoclose: true,
+      orientation: "bottom left",
+      format: "dd/mm/yyyy",
+      todayHighlight: true
+      });
+  });

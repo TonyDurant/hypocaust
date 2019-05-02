@@ -1,0 +1,8 @@
+%li
+  = link_to construction_site_path(construction_site), remote: true, class: "construction_site_sidebar_link " + "construction_site_" + construction_site.id.to_s do
+    %span.text-muted #
+    = truncate(construction_site.name, length: 22)
+    - tasks_to_do = construction_site.tasks.where.not(state: "done").count
+    - if tasks_to_do > 0
+      %span.badge.pull-right
+        = tasks_to_do

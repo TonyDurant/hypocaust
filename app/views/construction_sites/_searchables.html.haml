@@ -1,0 +1,24 @@
+- if item.searchable.class.name == "Task"
+  - if current_user.has_right_to_see?(item.searchable)
+    %br/
+    = render partial: 'tasks/task_todo', object: item.searchable, as: :task
+- if item.searchable.class.name == "ConstructionSite"
+  - if current_user.has_right_to_see?(item.searchable)
+    %br/
+    = render partial: 'construction_sites/construction_site_thumbnail', object: item.searchable, as: :construction_site
+- if item.searchable.class.name == "Comment"
+  - if current_user.has_right_to_see?(item.searchable)
+    %br/
+    = render partial: 'comments/comment', object: item.searchable, as: :comment
+- if item.searchable.class.name == "LeadTime"
+  - if current_user.has_right_to_see?(item.searchable)
+    %br/
+    = render partial: 'lead_times/lead_time', object: item.searchable, as: :lead_time
+- if item.searchable.class.name == "Attachment"
+  - if current_user.has_right_to_see?(item.searchable)
+    %br/
+    = render partial: 'attachments/attachment', object: item.searchable, as: :attachment
+- if item.searchable.class.name == "LinkThumbnail"
+  - if current_user.has_right_to_see?(item.searchable)
+    %br/
+    = render partial: 'comments/comment', object: item.searchable.comment, as: :comment

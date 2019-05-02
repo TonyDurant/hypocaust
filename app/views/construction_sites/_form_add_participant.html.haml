@@ -1,0 +1,11 @@
+.row-fluid
+  #add_participants_form
+    = simple_form_for @construction_site, url: add_participants_construction_site_path(@construction_site), :html => { :class => 'form-horizontal', :role => 'form', novalidate: true }, remote: true do |f|
+      = f.error_notification
+      .form-group
+        %label.float.optional.control-label
+          = t("cs.form.add_user")
+        = text_field_tag :emails, params[:emails], class: "form-control"
+        %p.text-muted
+          = t("cs.form.add_user_desc")
+        = f.button :submit, :class => 'btn btn-default', value: t("cs.form.add_user")

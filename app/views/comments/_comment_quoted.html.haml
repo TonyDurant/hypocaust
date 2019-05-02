@@ -1,0 +1,18 @@
+.media
+  .media-body
+    %h5.media-heading
+      - if comment.user.name && comment.user.last_name
+        = comment.user.try(:name) + " " + comment.user.try(:last_name)
+      - else
+        = comment.user.email
+      %span.text-muted{:style => "color:lightgrey"}
+        %i.fa.fa-clock-o{:style => "color:lightgrey"}
+        = comment.created_at.strftime("%d-%b-%Y, %H:%M")
+      - if comment.activities.count > 2
+        %span.text-muted{:style => "color:lightgrey"}
+          %i.fa.fa-pencil{:style => "color:lightgrey"}
+          = t("comment.edited")
+      = link_to comment_path(comment), remote: true do
+        %i.fa.pull-right.fa-reply{:style => "color:lightblue"}
+      %span.i.fa.fa-commenting-o{"aria-hidden" => "true"}
+    = comment.body.prep.urls_to_images.newlines_to_br.urls_to_links

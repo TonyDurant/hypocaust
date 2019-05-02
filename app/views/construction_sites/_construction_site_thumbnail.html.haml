@@ -1,0 +1,17 @@
+#callout-alerts-no-default{:class => "bs-callout bs-callout-blue"}
+  .pull-right
+    %a.pull-right{href: "#"}
+
+  %h5
+    = link_to truncate(construction_site.name, length: 30), construction_site_path(construction_site), :remote => true
+    %span.text-muted{:style => "color:lightgrey"}
+      %i.fa.fa-clock-o{:style => "color:lightgrey"}
+      = construction_site.created_at.strftime("%d-%B-%Y, %H:%M")
+  %p
+    = markdown.render(construction_site.try(:description)).html_safe
+  %p
+    - construction_site.participations.uniq!.each do |participation|
+      - if participation.user.avatar? && participation.user.avatar != ""
+        = image_tag(participation.user.avatar, {:class => 'img-circle', :style => "width: 35px;"})
+      - else
+        = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 35px;"})

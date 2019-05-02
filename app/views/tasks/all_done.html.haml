@@ -1,0 +1,22 @@
+- model_class = Task
+.col-sm-12
+  %br
+  %ol.breadcrumb
+    %li
+      = link_to t("buttons.back"), kanban_construction_site_path(@construction_site)
+    %li.active
+      = @construction_site.name
+  %br
+  .lead
+    = t("tasks.done")
+  #tasks
+    = render @tasks
+  
+.pagination-centered
+  = will_paginate @tasks
+
+= content_for :title do
+  = @construction_site.name + ": " + t("kanban.done")
+
+= content_for :meta_description do
+  = @construction_site.name + ": " + t("kanban.done")

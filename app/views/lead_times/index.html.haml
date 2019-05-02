@@ -1,0 +1,27 @@
+%h1 Listing lead_times
+
+%table
+  %tr
+    %th Title
+    %th User
+    %th Construction site
+    %th Start date
+    %th End date
+    %th
+    %th
+    %th
+
+  - @lead_times.each do |lead_time|
+    %tr
+      %td= lead_time.title
+      %td= lead_time.user_id
+      %td= lead_time.construction_site_id
+      %td= lead_time.start_date
+      %td= lead_time.end_date
+      %td= link_to 'Show', lead_time
+      %td= link_to 'Edit', edit_lead_time_path(lead_time)
+      %td= link_to 'Destroy', lead_time, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Lead time', new_lead_time_path

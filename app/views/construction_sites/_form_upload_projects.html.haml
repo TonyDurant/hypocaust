@@ -1,0 +1,23 @@
+#uploadProjects.modal.fade.bs-example-modal-lg{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-lg{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title= t("cs.import").html_safe
+      = form_tag import_construction_sites_path, multipart: true do
+        .modal-body
+          .container
+            .media
+              .pull-left
+                %i.fa.fa-upload
+              .media-body
+                %h5.media-heading
+                  = t("cs.how_to_upload")
+                = t("cs.how_to_upload_desc")
+          .container
+            %br/
+            = file_field_tag :file
+        .modal-footer
+          %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}= t("buttons.close")
+          = submit_tag t("cs.import_no_html"), :class => 'btn btn-small btn-primary'

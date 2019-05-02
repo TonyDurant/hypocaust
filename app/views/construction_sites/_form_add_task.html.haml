@@ -1,0 +1,58 @@
+#task_create_form
+  .row-fluid
+    - if !@construction_site.sprints.empty?
+      .lead= t("task.new")
+      %hr/
+      = simple_form_for Task.new, :html => { :class => 'form-horizontal', :role => 'form', remote: true} do |f|
+        .form-group
+          = f.input :name, placeholder: t("task.name_label"), input_html: { class: 'form-control' }, required: true, label: t("task.name"), :autofocus=>true
+        .form-group
+          = f.trix_editor :desc, placeholder: t("task.desc_label"), input_html: { class: 'form-control' }, required: true, label: t("task.desc")
+        .form-group
+          = f.input :end_time, as: :string, placeholder: t("task.end_time"), input_html: { class: 'datepicker form-control' }, label: t("task.end_time")
+        .form-group
+          = f.input :duration, placeholder: t("task.duration_label"), input_html: { class: 'form-control' }, required: true, label: t("task.duration")
+        .form-group
+          = f.input :color, input_html: { class: 'form-control' }, collection: [[t("task.green"), 'green'], [t("task.yellow"), 'yellow'], [t("task.red"), 'red'], [t("task.blue"), 'info']], label: t("task.color_label"), include_blank: false
+        %hr
+        .form-group
+          = f.association :sprint, collection: @construction_site.sprints, label_method: :name, value_method: :id, include_blank: false, input_html: { class: 'form-control' }, label: t("task.sprint_label")
+        .form-group
+          = f.association :user, collection: @construction_site.users, label_method: :email, value_method: :id, include_blank: false, input_html: { class: 'form-control' }, label: t("task.user")
+        = f.input :state, :input_html => { :value => 'todo' }, as: :hidden
+        = f.input :construction_site_id, :input_html => { :value => @construction_site.id }, as: :hidden
+        .form-group
+          = f.button :submit, :class => 'btn btn-default', value: t("buttons.add_task")
+        %br/
+        .alert.alert-info{:role => "alert"}
+          = t("task.alert_1")
+    - else
+      .media
+        .media-body
+          .media
+            %a.pull-left{href: "#"}
+              = image_tag("https://img-fotki.yandex.ru/get/109111/104136015.21/0_b7c35_f9e4fc0c_S.png", {:class => 'img-circle', :style => "width: 35px;"})
+            .media-body
+              %h5.media-heading
+                HypocaustBot
+                %span.text-muted{:style => "color:lightgrey"}
+                  %i.fa.fa-clock-o{:style => "color:lightgrey"}
+                  = Time.now.strftime("%d-%B-%Y, %H:%M")
+              .text-muted
+                = t("activity.advice")
+              #callout-alerts-no-default{:class => "bs-callout bs-callout-blue"}
+                %p= t("task.alert_2")
+                %p= t("task.alert_3")
+  %br
+  .row-fluid
+    = render :partial => "add_sprint"
+
+  :javascript
+    $(document).ready(function(){
+        $('.datepicker').datepicker({
+        autoclose: true,
+        orientation: "bottom left",
+        format: "dd/mm/yyyy",
+        todayHighlight: true
+        });
+    });

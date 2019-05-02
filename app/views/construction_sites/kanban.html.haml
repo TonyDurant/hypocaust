@@ -1,0 +1,33 @@
+= render :partial => "header"
+= render :partial => "tabs"
+- if @construction_site.tasks.empty?
+  = render :partial => "first_steps"
+- else
+  %br/
+  .container-fluid
+    .row
+      .col-md-4
+        .lead
+          = t("kanban.todo")
+          = " / "
+          = @construction_site.tasks.where(state: 'todo').count
+        - @tasks = @construction_site.tasks.where(state: 'todo').order('color ASC').order('created_at DESC')
+        = render @tasks
+
+      .col-md-4
+        .lead
+          = t("kanban.in_progress")
+          = " / "
+          = @construction_site.tasks.where(state: 'in progress').count
+        - @tasks = @construction_site.tasks.where(state: 'in progress').order('color ASC').order('created_at DESC').take(10)
+        = render @tasks
+
+      .col-md-4
+        .lead
+          = link_to t("kanban.done"), all_done_construction_site_tasks_path(@construction_site)
+          = " / "
+          = @construction_site.tasks.where(state: 'done').count
+        - @tasks = @construction_site.tasks.where(state: 'done').order('created_at DESC').take(10)
+        = render @tasks
+
+= render partial: "tasks/task_modal", object: @task, as: :task

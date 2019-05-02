@@ -1,0 +1,11 @@
+- if user_signed_in?
+  = simple_form_for Comment.new, :html => { :class => 'form-horizontal', :role => 'form'} do |f|
+    = f.input :body, label: false, placeholder: "Есть, что добавить к данному посту?...", input_html: { class: 'form-control' }, required: true
+    = f.input :commentable_id, :input_html => { :value => @post.id }, as: :hidden
+    = f.input :commentable_type, :input_html => { :value => "Post" }, as: :hidden
+    %br/
+    = f.button :submit, :class => 'btn btn-default', value: "Добавить комментарий"
+- else
+  .alert.alert-info{:role => "alert"}
+    Вы сможете оставить комментарий к данному посту после
+    = link_to 'регистрации', new_user_registration_path

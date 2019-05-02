@@ -1,0 +1,46 @@
+= simple_form_for @post, :html => { :class => 'form-horizontal', :role => 'form', novalidate: true } do |f|
+
+  .alert.alert-info{:role => "alert"} Вау, круто. Теперь посты можно писать использую «#{link_to "маркдаун", "http://gitbookio.gitbooks.io/markdown/content/syntax/links.html"}» разметку. Подсказка справа от тела статьи.
+
+
+  .row-fluid
+    .col-md-12
+      .form-group
+        = f.input :title, input_html: { class: 'form-control' }, label: "Название статьи", placeholder: 'Вентиляция в современном инженерном мире'
+      .form-group
+        = f.input :image_url, input_html: { class: 'form-control' }, label: "Ссылка на основное изображение статьи", placeholder: 'http://www.image.com/uploads/17-150x150.jpg'
+      .form-group
+        = f.input :short_desc, input_html: { class: 'form-control' }, label: "Описание статьи, которое появится в предварительном просмотре на главной", placeholder: 'В данной статье мы рассмотрим прикладное примиенение...'
+  .row-fluid 
+    .col-md-8
+      .form-group
+        = f.input :body, input_html: { class: 'form-control' }, label: "Тело статьи", placeholder: 'Вентиляция играет очень важную роль в современном мире...'
+      %ul.list-inline
+        %li
+          .form-group
+            = f.check_box :draft, as: :boolean
+        %li Опубликовать как черновик
+    .col-md-4
+      %p Маркдаун:
+      %dl
+        %dt Заголовки
+        %dd # Большой заголовок
+        %dd ## Заголовок по-меньше
+        %dd ### Еще меньше и т. д.
+        %br
+        %dt Ссылки
+        %dd [Текст ссылки](http://hypocaust.org)
+        %dd [Текст ссылки с подсветкой](http://hypocaust.org "Главная Гипокраба")
+        %br
+        %dt Картинки
+        %dd ![Alternative text](/path/to/img.jpg "Optional title")
+
+  .row-fluid 
+    .col-md-12
+      .form-group
+        %br/
+        .form-group
+          = f.association :blog, label_method: :name, value_method: :id, include_blank: false, input_html: { class: 'form-control' }, label: "В какой блог опубликовать статью?"
+        .form-group
+          = f.button :submit, :class => 'btn btn-default', value: "Опубликовать статью"
+          = link_to "Назад", posts_path, :class => 'btn btn-default'

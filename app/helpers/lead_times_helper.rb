@@ -1,0 +1,2 @@
+module LeadTimesHelper
+end

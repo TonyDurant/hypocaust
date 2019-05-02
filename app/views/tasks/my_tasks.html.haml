@@ -1,0 +1,49 @@
+- model_class = ConstructionSite
+- if (current_user.construction_sites.empty? && current_user.try(:status) == nil)
+  = render :partial => "about_kanban"
+  %p
+.container-fluid
+  .row
+    .col-md-12
+      .lead
+        %i.fa.fa-calendar{"aria-hidden" => "true"}
+        = t("kanban.scope_of_work_for_today")
+      = render :partial => "tasks/task_todo", :collection => current_user.tasks.where({ state: ["todo", "in progress"]}).where("DATE(end_time) <= ?", Date.today).order('created_at DESC'), :as => :task
+
+  %br/
+  .row
+    .col-md-4
+      .lead
+        = t("kanban.todo")
+        = " / "
+        = @tasks.where(state: "todo").count
+      = render @tasks.where(state: "todo").order('created_at DESC')
+
+    .col-md-4
+      .lead
+        = t("kanban.in_progress")
+        = " / "
+        = @tasks.where(state: "in progress").count
+      = render @tasks.where(state: "in progress").order('created_at DESC')
+
+    .col-md-4
+      .lead
+        = t("kanban.done")
+        = " / "
+        = @tasks.where(state: "done").count
+      = render @tasks.where(state: "done").order('created_at DESC').take(15)
+
+/ Large modal
+
+#myModal.modal.fade.bs-example-modal-lg{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog.modal-lg{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4#myModalLabel.modal-title
+          = t("tasks.task")
+      .modal-body
+        #task
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"}
+          = t("buttons.close")

@@ -1,0 +1,8 @@
+- model_class = ConstructionSite
+%h2{:style => "text-align: center"}
+  = t("cs.new")
+%hr/
+
+.alert.alert-info{:role => "alert"}
+  = t("cs.blank")
+= render :partial => "form"

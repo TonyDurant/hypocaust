@@ -1,0 +1,46 @@
+.container
+  .col-md-8
+    #posts
+      = render @posts
+  .col-md-4
+    %br
+    - if current_user.try(:status) == 'admin'
+      = link_to '+ Добавить статью', new_post_path, :class => 'btn btn-default btn-lg btn-block'
+    - if current_user.try(:status) == 'admin'
+      - if @posts_in_draft.count > 0 
+        = link_to drafts_posts_path, :class => 'btn btn-default btn-lg btn-block' do
+          Черновики 
+          %span.badge
+            = @posts_in_draft.count
+    %br
+    %a.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", :href => "#", :role => "button"}
+      %span.glyphicon.glyphicon-filter
+      = "Посты по блогам"
+      %span.caret
+    %ul.dropdown-menu{:role => "menu"}
+      %li
+        = link_to posts_path, :class => 'link' do
+          %span.glyphicon.glyphicon-briefcase.text-muted
+          = "Все посты"
+      - Blog.all.each do |blog|
+        %li
+          = link_to posts_blog_path(blog), :class => 'link' do
+            %span.glyphicon.glyphicon-briefcase.text-muted
+            = blog.name
+
+.pagination-centered
+  = will_paginate @posts
+
+= content_for :favorites do
+  %li  
+    = link_to(favorites_posts_path, :class => 'btn link') do
+      %i.fa.fa-star{:style => "color:grey; font-size:18px;"}
+
+= content_for :vk_button do
+  = render partial: "posts/like_button_vk"
+
+= content_for :title do
+  = 'Блог Гипокауста: Интересные статьи про отопление, котельные, вентиляцию, кондиционирование в офисах, коттеджах и торговых центрах'
+
+= content_for :meta_description do
+  = "Гипокауст бережно собирает инженерные статьи из разных источников автоматически."

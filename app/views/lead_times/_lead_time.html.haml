@@ -1,0 +1,16 @@
+#callout-alerts-no-default{:class => "bs-callout bs-callout-blue"}
+  .pull-right
+    - if !lead_time.user.nil?
+      - if lead_time.user.avatar && lead_time.user.avatar != ""
+        = image_tag(lead_time.user.avatar, {:class => 'img-circle', :style => "width: 20px;"})
+      - else
+        = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 20px;"})
+    - else
+      = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 20px;"})
+  %h5
+    %i.fa.fa-truck{:style => "color:lightblue"}
+    = truncate(lead_time.title, length: 20)
+    = lead_time.end_date.strftime("%B %d, %Y")
+    %span.label.label-default
+      = link_to lead_time_url(lead_time, :locale => 'en'), :method => :delete do
+        %i.fa.fa-trash-o{:style => "color:white"}

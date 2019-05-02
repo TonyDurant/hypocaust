@@ -1,0 +1,92 @@
+- model_class = Post
+%br/
+.container-fluid
+  .row
+    .col-md-12
+      - unless @post.image_url?
+        %h1{:align => "center"}
+          = @post.title
+          %small
+            - if current_user.try(:id) == @post.user_id || current_user.try(:status) == 'admin'
+              = link_to edit_post_path(@post) do
+                %span.glyphicon.glyphicon-pencil
+              = link_to post_path(@post), :method => :delete, :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Точно удалить пост?')) do
+                %span.glyphicon.glyphicon-trash
+        %p.lead{:align => "center"}
+          - if @post.user.avatar && @post.user.avatar != ""
+            = image_tag(@post.user.avatar, {:class => 'img-circle', :style => "width: 35px;"})
+          -else
+            = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 35px;"})
+          - if !@post.url.nil?
+            = link_to @post.url do
+              - if @post.user.name && @post.user.last_name
+                = @post.user.try(:name) + " " + @post.user.try(:last_name)
+              - else
+                = @post.user.email
+          - else
+            - if @post.user.name && @post.user.last_name
+              = @post.user.try(:name) + " " + @post.user.try(:last_name)
+            - else
+              = @post.user.email
+        %hr/
+      = markdown.render(@post.body).html_safe
+      %br/
+      .text-muted
+        = @post.created_at.strftime("%d-%B-%Y, %H:%M")
+        = " | "
+        %span.glyphicon.glyphicon-briefcase
+        = link_to @post.blog.try(:name), posts_blog_path(@post.blog)
+      %p
+      = link_to 'Вернуться назад', :back, :class => 'btn btn-default'
+      - if user_signed_in?
+        - if @post.favorites.where(user_id: current_user.id).empty?
+          %span{:data_post_id => "#{@post.id}"}
+            %i.fa.fa-star-o.addtofavAction{:style => "font-size:18px"}
+        - else
+          %span{:data_post_id => "#{@post.id}"}
+            %i.fa.fa-star{:style => "font-size:18px; color: lightblue"}
+      %hr/
+      = render :partial => "comment"
+      = render :partial => "list_of_comments"
+
+-if @post.image_url?
+  = content_for :post_top_teaser do
+    .carousel-inner{:role => "listbox"}
+      .fill-teaser{style: "background-image:url(#{@post.image_url}); height:100%;"}
+      .container
+        .carousel-caption
+          %h1{:align => "left"}
+            = @post.title
+            %small
+              - if current_user.try(:id) == @post.user_id || current_user.try(:status) == 'admin'
+                = link_to edit_post_path(@post) do
+                  %span.glyphicon.glyphicon-pencil
+                = link_to post_path(@post), :method => :delete, :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Точно удалить пост?')) do
+                  %span.glyphicon.glyphicon-trash
+          %p.lead{:align => "left"}
+            - if @post.user.avatar && @post.user.avatar != ""
+              = image_tag(@post.user.avatar, {:class => 'img-circle', :style => "width: 35px;"})
+            -else
+              = image_tag("http://img-fotki.yandex.ru/get/4130/104136015.19/0_84e97_f2011e05_XS.jpg", {:class => 'img-circle', :style => "width: 35px;"})
+            - if !@post.url.nil?
+              = link_to @post.url do
+                - if @post.user.name && @post.user.last_name
+                  = @post.user.try(:name) + " " + @post.user.try(:last_name)
+                - else
+                  = @post.user.email
+            - else
+              - if @post.user.name && @post.user.last_name
+                = @post.user.try(:name) + " " + @post.user.try(:last_name)
+              - else
+                = @post.user.email
+  
+= content_for :favorites do
+  %li  
+    = link_to(favorites_posts_path, :class => 'btn link') do
+      %i.fa.fa-star{:style => "color:grey; font-size:18px;"}
+
+= content_for :title do
+  = @post.blog.try(:name) + ": " + @post.title
+
+= content_for :meta_description do
+  = truncate(@post.short_desc, length: 350)
